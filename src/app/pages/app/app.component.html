@@ -1,0 +1,17 @@
+<!--<div class="row">-->
+<!--  <mat-form-field class="col s12" appearance="outline">-->
+<!--    <mat-label>Búsqueda rápida</mat-label>-->
+<!--    <input [(ngModel)]="question" (keyup.enter)="!(question === undefined || question === '') ? search(): null"-->
+<!--           matInput-->
+<!--           type="search">-->
+<!--    <button mat-icon-button matSuffix (click)="search()" [disabled]="question === undefined || question === ''">-->
+<!--      <mat-icon>search</mat-icon>-->
+<!--    </button>-->
+<!--  </mat-form-field>-->
+
+
+<!--  <button *ngIf="auth.isLogged()" (click)="openModalCreateQuestion()" mat-fab color="primary">-->
+<!--    <mat-icon>add</mat-icon>-->
+<!--  </button>-->
+<!--</div>-->
+<router-outlet></router-outlet>

@@ -1,0 +1,28 @@
+<h1 class="center ">Iniciar Sesión</h1>
+<form [formGroup]="logInForm" class="row">
+  <div class="col s12 l6 offset-l3">
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input formControlName="email" type="text" matInput placeholder="ejemplo@email.com">
+      <mat-error *ngIf="logInForm.controls['email'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="logInForm.controls['email'].errors?.['email']">El formato del email no es valido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input formControlName="password" type="password" matInput>
+      <mat-icon class="pointer" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="logInForm.controls['password'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="logInForm.controls['password'].errors?.['minlength']">Deben ser al menos 6 caracteres</mat-error>
+    </mat-form-field>
+
+    <div class="col s12 center">
+      <br/>
+      <button (click)="logIn()" [disabled]="!logInForm.valid" mat-raised-button color="primary">Iniciar sesión</button>
+    </div>
+
+    <div class="col s12 center pointer" routerLink="/auth/recovery-password">
+      <br/>
+      <p>¿Olvidaste tu clave? <span class="blue-text">Recuperala aquí</span></p>
+    </div>
+  </div>
+</form>

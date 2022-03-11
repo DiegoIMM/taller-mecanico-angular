@@ -1,0 +1,7 @@
+<div *ngIf="loading">
+  Cargando...
+</div>
+
+<div class="row" *ngIf="!loading && profile">
+  {{profile! | json}}
+</div>

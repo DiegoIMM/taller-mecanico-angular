@@ -1,0 +1,22 @@
+<h1 class="center ">Recuperar contraseña</h1>
+<p class="center">Se te enviará un correo con un enlace para configurar una nuvea clave</p>
+<form [formGroup]="recoveryPassForm" class="row">
+  <div class="col s12 l6 offset-l3">
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input formControlName="email" type="text" matInput placeholder="ejemplo@email.com">
+      <mat-error *ngIf="recoveryPassForm.controls['email'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="recoveryPassForm.controls['email'].errors?.['email']">El formato del email no es valido</mat-error>
+    </mat-form-field>
+
+
+    <div class="col s12 center">
+      <br/>
+      <button (click)="sendRequest()" [disabled]="!recoveryPassForm.valid" mat-raised-button color="primary">Enviar
+        correo
+      </button>
+    </div>
+
+
+  </div>
+</form>
