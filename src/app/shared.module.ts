@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import esCL from '@angular/common/locales/es-CL';
+import {A11yModule} from '@angular/cdk/a11y';
+
 registerLocaleData(esCL, 'es-CL');
 
 
@@ -11,14 +13,16 @@ registerLocaleData(esCL, 'es-CL');
   declarations: [],
   imports: [
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    A11yModule
 
   ],
   exports: [
     CommonModule,
     FormsModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    A11yModule
   ]
 })
 export class SharedModule {
