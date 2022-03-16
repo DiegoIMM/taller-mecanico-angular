@@ -174,4 +174,15 @@ export class ApiService {
   }
 
 
+  addClient(client: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}cliente/insert`, client, httpOptions)
+      .pipe(catchError(this.handleError<any>('add Client')));
+  }
+
+
+  getAllClients(): Observable<any> {
+    return this.http
+      .get(apiUrl + 'cliente/all', httpOptions)
+      .pipe(catchError(this.handleError('get getAllClients')));
+  }
 }
