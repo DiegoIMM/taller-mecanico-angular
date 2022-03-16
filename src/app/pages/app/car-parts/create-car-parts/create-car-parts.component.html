@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Crear Repuesto</h1>
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="createCarPartsForm" class="row">
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input type="text" formControlName="nombre" matInput placeholder="Filtro de aire">
+      <mat-error *ngIf="createCarPartsForm.controls['nombre'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Código</mat-label>
+      <input type="text" formControlName="codigo" matInput placeholder="123456789">
+      <mat-error *ngIf="createCarPartsForm.controls['codigo'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Año</mat-label>
+      <input type="text" formControlName="anio" matInput placeholder="2022">
+      <mat-error *ngIf="createCarPartsForm.controls['anio'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <input type="text" formControlName="modelo" matInput placeholder="Kia morning">
+      <mat-error *ngIf="createCarPartsForm.controls['modelo'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Proveedor</mat-label>
+      <input type="text" formControlName="rutProveedor" matInput placeholder="Bosch">
+      <mat-error *ngIf="createCarPartsForm.controls['rutProveedor'].errors?.['required']">Este campo es requerido
+      </mat-error>
+      <!--      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">-->
+      <!--        <mat-option *ngFor="let proveedor of filteredFruits | async" [value]="proveedor">-->
+      <!--          {{proveedor}}-->
+      <!--        </mat-option>-->
+      <!--      </mat-autocomplete>-->
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input type="text" formControlName="valor" matInput placeholder="5990">
+      <mat-error *ngIf="createCarPartsForm.controls['valor'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
+  <button mat-button cdkFocusInitial [disabled]="!createCarPartsForm.valid || loadingButton" (click)="saveCarParts()">
+    Crear
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+</mat-dialog-actions>

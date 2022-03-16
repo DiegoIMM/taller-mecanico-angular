@@ -4,7 +4,7 @@ import {ApiService} from '../../../services/api.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {CreateClientComponent} from '../clients/create-client/create-client.component';
+import {CreateCarPartsComponent} from './create-car-parts/create-car-parts.component';
 
 @Component({
   selector: 'app-car-parts',
@@ -15,7 +15,7 @@ export class CarPartsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Nombre', 'Comuna', 'Dirección', 'Teléfono'];
+  displayedColumns: string[] = ['Código', 'Nombre', 'Modelo', 'Año', 'Proveedor', 'Valor'];
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 
@@ -58,7 +58,7 @@ export class CarPartsComponent implements OnInit {
 
 
   openCreateCarParts(): void {
-    this.dialog.open(CreateClientComponent, {
+    this.dialog.open(CreateCarPartsComponent, {
       width: '1290px'
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
