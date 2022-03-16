@@ -210,4 +210,16 @@ export class ApiService {
   }
 
 
+  addVehicle(vehicle: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}vehiculo/insert`, vehicle, httpOptions)
+      .pipe(catchError(this.handleError<any>('add Vehiculo')));
+  }
+
+  getAllVehicles(): Observable<any> {
+    return this.http
+      .get(apiUrl + 'vehiculo/all', httpOptions)
+      .pipe(catchError(this.handleError('get getAllVehiculos')));
+  }
+
+
 }

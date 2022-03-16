@@ -20,11 +20,12 @@ import { DetailClientComponent } from './clients/detail-client/detail-client.com
 import { DeleteClientComponent } from './clients/delete-client/delete-client.component';
 import { CreateCarPartsComponent } from './car-parts/create-car-parts/create-car-parts.component';
 import { CreateProviderComponent } from './providers/create-provider/create-provider.component';
+import { CreateVehicleComponent } from './vehicles/create-vehicle/create-vehicle.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent, NotFoundComponent, ProfileComponent, ClientsComponent, VehiclesComponent, WorkOrdersComponent, CarPartsComponent, ProvidersComponent, CreateClientComponent, EditClientComponent, DetailClientComponent, DeleteClientComponent, CreateCarPartsComponent, CreateProviderComponent],
+    AppComponent, NotFoundComponent, ProfileComponent, ClientsComponent, VehiclesComponent, WorkOrdersComponent, CarPartsComponent, ProvidersComponent, CreateClientComponent, EditClientComponent, DetailClientComponent, DeleteClientComponent, CreateCarPartsComponent, CreateProviderComponent, CreateVehicleComponent],
   imports: [
     CommonModule,
     AppRoutingModule,
