@@ -15,10 +15,8 @@ export class ClientsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-
   displayedColumns: string[] = ['Nombre', 'Comuna', 'Dirección', 'Teléfono'];
   loadingTable = true;
-  clients: any[] = [];
   dataSource: MatTableDataSource<any> | undefined;
 
 
@@ -43,10 +41,7 @@ export class ClientsComponent implements OnInit {
     this.loadingTable = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.clients = data.clienteDtoList;
         this.dataSource = new MatTableDataSource(data.clienteDtoList);
-        console.log(this.clients);
-
       }, error: error => {
         console.log(error);
       }, complete: () => {
