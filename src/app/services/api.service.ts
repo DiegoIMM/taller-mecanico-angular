@@ -186,8 +186,8 @@ export class ApiService {
       .pipe(catchError(this.handleError('get getAllClients')));
   }
 
-  addCarPart(client: any): Observable<any> {
-    return this.http.post<any>(`${apiUrl}repuesto/insert`, client, httpOptions)
+  addCarPart(carPart: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}repuesto/insert`, carPart, httpOptions)
       .pipe(catchError(this.handleError<any>('add Repuesto')));
   }
 
@@ -195,6 +195,18 @@ export class ApiService {
     return this.http
       .get(apiUrl + 'repuesto/all', httpOptions)
       .pipe(catchError(this.handleError('get getAllRepuestos')));
+  }
+
+
+  addProviders(provider: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}proveedor/insert`, provider, httpOptions)
+      .pipe(catchError(this.handleError<any>('add Proveedor')));
+  }
+
+  getAllProviders(): Observable<any> {
+    return this.http
+      .get(apiUrl + 'proveedor/all', httpOptions)
+      .pipe(catchError(this.handleError('get getAllProveedores')));
   }
 
 

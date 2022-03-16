@@ -55,9 +55,6 @@ export class CreateCarPartsComponent implements OnInit {
       }
     });
 
-    // const question: Question = Question.fromJson(this.createQuestionForm.getRawValue());
-
-
   }
 
 

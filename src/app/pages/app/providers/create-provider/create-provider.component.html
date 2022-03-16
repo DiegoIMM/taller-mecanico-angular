@@ -1,0 +1,69 @@
+<h1 mat-dialog-title>Crear Proveedor</h1>
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="createProviderForm" class="row">
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input type="text" formControlName="nombre" matInput placeholder="Pedro">
+      <mat-error *ngIf="createProviderForm.controls['nombre'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Apellido</mat-label>
+      <input type="text" formControlName="apellido" matInput placeholder="Padilla">
+      <mat-error *ngIf="createProviderForm.controls['apellido'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Rut</mat-label>
+      <input type="text" formControlName="rut" matInput placeholder="11.111.111-1">
+      <mat-error *ngIf="createProviderForm.controls['rut'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Teléfono</mat-label>
+      <input type="text" formControlName="telefono" matInput placeholder="+569 32421212">
+      <mat-error *ngIf="createProviderForm.controls['telefono'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Region</mat-label>
+      <mat-select formControlName="comuna">
+        <mat-option value="region de prueba">
+          region 1
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Comuna</mat-label>
+      <mat-select formControlName="ciudad">
+        <mat-option value="region de prueba">
+          comuna 1
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Dirección</mat-label>
+      <input type="text" formControlName="direccion" matInput placeholder="Los alamos 21">
+      <mat-error *ngIf="createProviderForm .controls['direccion'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
+  <button mat-button cdkFocusInitial [disabled]="!createProviderForm.valid || loadingButton" (click)="saveProvider()">
+    Crear
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+</mat-dialog-actions>
