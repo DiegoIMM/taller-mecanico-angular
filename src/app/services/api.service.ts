@@ -188,13 +188,13 @@ export class ApiService {
 
   addCarPart(client: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}repuesto/insert`, client, httpOptions)
-      .pipe(catchError(this.handleError<any>('add Client')));
+      .pipe(catchError(this.handleError<any>('add Repuesto')));
   }
 
   getAllCarParts(): Observable<any> {
     return this.http
-      .get(apiUrl + 'cliente/all', httpOptions)
-      .pipe(catchError(this.handleError('get getAllClients')));
+      .get(apiUrl + 'repuesto/all', httpOptions)
+      .pipe(catchError(this.handleError('get getAllRepuestos')));
   }
 
 

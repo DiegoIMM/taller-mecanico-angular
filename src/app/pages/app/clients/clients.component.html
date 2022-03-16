@@ -1,45 +1,64 @@
-<p>clients works!</p>
-<button (click)="openCreateClient()"> Crear cliente</button>
+<div class="row">
+  <div class="col s12 m12 l10">
+    <h1>Clientes</h1>
+  </div>
+  <div class="col s12 m12 l2">
+    <button mat-raised-button class="green col s12" (click)="openCreateClient()">Crear cliente</button>
+  </div>
+</div>
 
-<mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-</mat-form-field>
 
-<div *ngIf="!loadingTable" class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource!" matSort>
+<div *ngIf="loadingTable">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="Nombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="nombre"> Nombre</th>
-      <td mat-cell *matCellDef="let row"> {{row.nombre}} {{row.apellido}}</td>
-    </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="Comuna">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="comuna"> Comuna</th>
-      <td mat-cell *matCellDef="let row"> {{row.comuna}} </td>
-    </ng-container>
+<div *ngIf="!loadingTable">
+  <div *ngIf="dataSource!.data.length === 0"> No hay clientes creados</div>
+  <div *ngIf="dataSource!.data.length > 0">
 
-    <!-- Fruit Column -->
-    <ng-container matColumnDef="Dirección">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="direccion"> Dirección</th>
-      <td mat-cell *matCellDef="let row"> {{row.direccion}} </td>
-    </ng-container>
+    <mat-form-field appearance="standard">
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
 
-    <ng-container matColumnDef="Teléfono">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="telefono"> Teléfono</th>
-      <td mat-cell *matCellDef="let row"> {{row.telefono}} </td>
-    </ng-container>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource!" matSort>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Progress Column -->
+        <ng-container matColumnDef="Nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="nombre"> Nombre</th>
+          <td mat-cell *matCellDef="let row"> {{row.nombre}} {{row.apellido}}</td>
+        </ng-container>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
+        <!-- Name Column -->
+        <ng-container matColumnDef="Comuna">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="comuna"> Comuna</th>
+          <td mat-cell *matCellDef="let row"> {{row.comuna}} </td>
+        </ng-container>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="Dirección">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="direccion"> Dirección</th>
+          <td mat-cell *matCellDef="let row"> {{row.direccion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Teléfono">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="telefono"> Teléfono</th>
+          <td mat-cell *matCellDef="let row"> {{row.telefono}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </div>
+
 </div>

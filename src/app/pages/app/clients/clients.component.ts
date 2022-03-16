@@ -42,12 +42,15 @@ export class ClientsComponent implements OnInit {
     this.api.getAllClients().subscribe({
       next: data => {
         this.dataSource = new MatTableDataSource(data.clienteDtoList);
+        if (this.dataSource.data.length > 0) {
+          this.updatePaginatorAndSort();
+        }
+
       }, error: error => {
         console.log(error);
       }, complete: () => {
 
         this.loadingTable = false;
-        this.updatePaginatorAndSort();
 
       }
     });
