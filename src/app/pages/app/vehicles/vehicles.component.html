@@ -25,14 +25,14 @@
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource!" matSort>
 
-        <ng-container matColumnDef="Código">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="codigo"> Código</th>
-          <td mat-cell *matCellDef="let row"> {{row.codigo}}</td>
+        <ng-container matColumnDef="Patente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="patente"> Patente</th>
+          <td mat-cell *matCellDef="let row"> {{row.patente}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="Nombre">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="nombre"> Nombre</th>
-          <td mat-cell *matCellDef="let row"> {{row.nombre}}</td>
+        <ng-container matColumnDef="Marca">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="marca"> Marca</th>
+          <td mat-cell *matCellDef="let row"> {{row.marca}}</td>
         </ng-container>
 
         <!-- Name Column -->
@@ -47,14 +47,11 @@
           <td mat-cell *matCellDef="let row"> {{row.anio}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Proveedor">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="rutProveedor"> Proveedor</th>
-          <td mat-cell *matCellDef="let row"> {{row.rutProveedor}} </td>
+        <ng-container matColumnDef="Dueño">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="rutDueno"> Dueño</th>
+          <td mat-cell *matCellDef="let row"> {{row.rutDueno}} </td>
         </ng-container>
-        <ng-container matColumnDef="Valor">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="valor"> Valor</th>
-          <td mat-cell *matCellDef="let row"> {{row.valor}} </td>
-        </ng-container>
+
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

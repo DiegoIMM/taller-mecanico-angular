@@ -16,8 +16,9 @@ export class VehiclesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Código', 'Nombre', 'Modelo', 'Año', 'Proveedor', 'Valor'];
+  displayedColumns: string[] = ['Patente', 'Marca', 'Modelo', 'Año', 'Dueño'];
   loadingTable = true;
+
   dataSource: MatTableDataSource<any> | undefined;
 
 
@@ -68,6 +69,7 @@ export class VehiclesComponent implements OnInit {
       }
     });
   }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

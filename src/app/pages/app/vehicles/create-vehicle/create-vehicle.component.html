@@ -1,1 +1,77 @@
-<p>create-vehicle works!</p>
+<h1 mat-dialog-title>Crear Repuesto</h1>
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="createVehicleForm" class="row">
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Marca</mat-label>
+      <input type="text" formControlName="marca" matInput placeholder="Jeep">
+      <mat-error *ngIf="createVehicleForm.controls['marca'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Modelo</mat-label>
+      <input type="text" formControlName="modelo" matInput placeholder="Renegade">
+      <mat-error *ngIf="createVehicleForm.controls['modelo'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Patente</mat-label>
+      <input type="text" formControlName="patente" matInput placeholder="bcdf22">
+      <mat-error *ngIf="createVehicleForm.controls['patente'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Año</mat-label>
+      <input type="text" formControlName="anio" matInput placeholder="2018">
+      <mat-error *ngIf="createVehicleForm.controls['anio'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>numeroMotor</mat-label>
+      <input type="text" formControlName="numeroMotor" matInput placeholder="numeroMotor">
+      <mat-error *ngIf="createVehicleForm.controls['numeroMotor'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>numeroChasis</mat-label>
+      <input type="text" formControlName="numeroChasis" matInput placeholder="numeroMotor">
+      <mat-error *ngIf="createVehicleForm.controls['numeroChasis'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>color</mat-label>
+      <input type="text" formControlName="color" matInput placeholder="numeroMotor">
+      <mat-error *ngIf="createVehicleForm.controls['color'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>kilometraje</mat-label>
+      <input type="text" formControlName="kilometraje" matInput placeholder="numeroMotor">
+      <mat-error *ngIf="createVehicleForm.controls['kilometraje'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s10" appearance="outline">
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="rutDueno">
+        <mat-option *ngFor="let client of allClients" [value]="client.rut">
+          {{client.nombre}} {{client.apellido}}
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+    <button type="button" (click)="openModal()" class="col s2 green" mat-raised-button>Crear nuevo cliente</button>
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
+  <button mat-button cdkFocusInitial [disabled]="!createVehicleForm.valid || loadingButton" (click)="saveVehicle()">
+    Crear
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+</mat-dialog-actions>
