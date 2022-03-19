@@ -221,5 +221,16 @@ export class ApiService {
       .pipe(catchError(this.handleError('get getAllVehiculos')));
   }
 
+  addWorkOrder(workOrder: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}ordenTrabajo/insert`, workOrder, httpOptions)
+      .pipe(catchError(this.handleError<any>('add orden de trabajo')));
+  }
+
+  getAllWorkOrders(): Observable<any> {
+    return this.http
+      .get(apiUrl + 'ordenTrabajo/all', httpOptions)
+      .pipe(catchError(this.handleError('get getAllWorkOrders')));
+  }
+
 
 }

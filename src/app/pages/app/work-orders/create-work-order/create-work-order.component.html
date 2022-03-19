@@ -1,0 +1,91 @@
+<h1 mat-dialog-title>Crear Orden de trabajo</h1>
+<mat-dialog-content class="mat-typography">
+
+
+  <form [formGroup]="createWorkOrderForm" class="row">
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Numero de orden</mat-label>
+      <input type="text" formControlName="numeroOrden" matInput placeholder="11231123">
+      <mat-error *ngIf="createWorkOrderForm.controls['numeroOrden'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Fecha de ingreso</mat-label>
+      <input type="text" formControlName="fechaIngreso" matInput placeholder="20/10/2022">
+      <mat-error *ngIf="createWorkOrderForm.controls['fechaIngreso'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s10" appearance="outline">
+      <mat-label>Cliente</mat-label>
+      <mat-select formControlName="rutCliente">
+        <mat-option *ngFor="let client of allClients" [value]="client.rut">
+          {{client.nombre}} {{client.apellido}}
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+    <button type="button" (click)="openModalCrearCliente()" class="col s2 green" mat-raised-button>Crear nuevo cliente
+    </button>
+    <mat-form-field class="col s10" appearance="outline">
+      <mat-label>Vehículo</mat-label>
+      <mat-select formControlName="patenteVehiculo">
+        <mat-option *ngFor="let vehicle of allVehicles" [value]="vehicle.patente">
+          {{vehicle.patente}}
+        </mat-option>
+
+      </mat-select>
+    </mat-form-field>
+    <button type="button" (click)="openModalCrearVehiculo()" class="col s2 green" mat-raised-button>Crear nuevo
+      vehiculo
+    </button>
+
+    <!--    Mostrar formArray -->
+
+
+    <div class="row" formArrayName="detalle">
+      <h3 class="col s12">Detalle</h3>
+      <div [formGroupName]="i"
+           *ngFor="let detalle of detalleFormArray.controls; let i = index">
+
+        <mat-form-field class="col s11 m5" appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <input type="text" formControlName="descripcion" matInput placeholder="descripcion">
+          <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->
+          <!--          </mat-error>-->
+        </mat-form-field>
+        <mat-form-field class="col s11 m5" appearance="outline">
+          <mat-label>Recargo</mat-label>
+          <input type="text" formControlName="recargo" matInput placeholder="recargo">
+          <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->
+          <!--          </mat-error>-->
+        </mat-form-field>
+        <div class="col s1 m1">
+          <button mat-mini-fab color="warn" type="button" (click)="eliminarDireccion(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+      </div>
+      <button mat-raised-button color="primary" class="col s12" type="button" (click)="addDetail()">Añadir detalle
+      </button>
+    </div>
+
+
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
+  <button mat-button cdkFocusInitial [disabled]="!createWorkOrderForm.valid || loadingButton" (click)="saveWorkOrder()">
+    Crear
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+</mat-dialog-actions>
+
+{{createWorkOrderForm.value | json}}
+{{createWorkOrderForm.valid | json}}
