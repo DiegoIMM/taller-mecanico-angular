@@ -13,7 +13,8 @@
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Apellido</mat-label>
       <input type="text" formControlName="apellido" matInput placeholder="Padilla">
-      <mat-error *ngIf="createProviderForm.controls['apellido'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm.controls['apellido'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
 
 
@@ -26,7 +27,8 @@
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Teléfono</mat-label>
       <input type="text" formControlName="telefono" matInput placeholder="+569 32421212">
-      <mat-error *ngIf="createProviderForm.controls['telefono'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm.controls['telefono'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
 
 
@@ -49,9 +51,15 @@
     </mat-form-field>
 
     <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input type="text" formControlName="email" matInput placeholder="example@gmail.com">
+      <mat-error *ngIf="createProviderForm .controls['email'].errors?.['required']">Este campo es requerido</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12" appearance="outline">
       <mat-label>Dirección</mat-label>
       <input type="text" formControlName="direccion" matInput placeholder="Los alamos 21">
-      <mat-error *ngIf="createProviderForm .controls['direccion'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm .controls['direccion'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
   </form>
 

@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-create-car-parts',
@@ -14,7 +15,8 @@ export class CreateCarPartsComponent implements OnInit {
 
   createCarPartsForm: FormGroup;
   loadingButton = false;
-
+  allProviders: any[] = [];
+  loadingProviders = false;
 
   constructor(private fb: FormBuilder,
               private api: ApiService,
@@ -38,7 +40,26 @@ export class CreateCarPartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllProviders();
   }
+
+  getAllProviders(): void {
+    this.loadingProviders = true;
+    this.api.getAllProviders().subscribe({
+      next: data => {
+        console.warn(data.proveedorDtoList);
+        this.allProviders = data.proveedorDtoList;
+
+      }, error: error => {
+        console.log(error);
+      }, complete: () => {
+
+        this.loadingProviders = false;
+
+      }
+    });
+  }
+
 
   async saveCarParts(): Promise<void> {
     // this.loadingButton = true;

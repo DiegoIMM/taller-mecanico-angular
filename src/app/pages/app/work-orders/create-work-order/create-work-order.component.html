@@ -48,13 +48,22 @@
       <div [formGroupName]="i"
            *ngFor="let detalle of detalleFormArray.controls; let i = index">
 
-        <mat-form-field class="col s11 m5" appearance="outline">
+        <mat-form-field class="col s11 m4" appearance="outline">
           <mat-label>Descripción</mat-label>
           <input type="text" formControlName="descripcion" matInput placeholder="descripcion">
           <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->
           <!--          </mat-error>-->
         </mat-form-field>
-        <mat-form-field class="col s11 m5" appearance="outline">
+        <mat-form-field class="col s11 m3" appearance="outline">
+          <mat-label>Repuesto</mat-label>
+          <mat-select formControlName="codigoRepuestos">
+            <mat-option *ngFor="let client of allCarParts" [value]="client.rut">
+              {{client.nombre}} {{client.apellido}}
+            </mat-option>
+
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col s11 m4" appearance="outline">
           <mat-label>Recargo</mat-label>
           <input type="text" formControlName="recargo" matInput placeholder="recargo">
           <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->

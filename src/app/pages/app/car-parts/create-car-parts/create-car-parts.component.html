@@ -32,16 +32,14 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col s12" appearance="outline">
+    <mat-form-field class="col s11 m3" appearance="outline">
       <mat-label>Proveedor</mat-label>
-      <input type="text" formControlName="rutProveedor" matInput placeholder="Bosch">
-      <mat-error *ngIf="createCarPartsForm.controls['rutProveedor'].errors?.['required']">Este campo es requerido
-      </mat-error>
-      <!--      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">-->
-      <!--        <mat-option *ngFor="let proveedor of filteredFruits | async" [value]="proveedor">-->
-      <!--          {{proveedor}}-->
-      <!--        </mat-option>-->
-      <!--      </mat-autocomplete>-->
+      <mat-select formControlName="rutProveedor">
+        <mat-option *ngFor="let provider of allProviders" [value]="provider.rut">
+          {{provider.nombre}} {{provider.apellido}}
+        </mat-option>
+
+      </mat-select>
     </mat-form-field>
 
 

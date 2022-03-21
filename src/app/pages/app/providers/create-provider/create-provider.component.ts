@@ -44,7 +44,7 @@ export class CreateProviderComponent implements OnInit {
     // this.loadingButton = true;
     console.log(this.createProviderForm.value);
 
-    this.api.addCarPart(this.createProviderForm.value).subscribe({
+    this.api.addProviders(this.createProviderForm.value).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {

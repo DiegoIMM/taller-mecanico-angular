@@ -16,7 +16,7 @@ export class ProvidersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Código', 'Nombre', 'Modelo', 'Año', 'Proveedor', 'Valor'];
+  displayedColumns: string[] = ['Nombre', 'Dirección', 'Email', 'Teléfono'];
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 

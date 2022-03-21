@@ -54,8 +54,8 @@ export class ApiService {
       // }
 
       if (error.status === 400) {
-        console.warn('asfdasdf' + error.error.message);
-        this.snackBar.open(error.error.message, '', {
+        console.warn('asfdasdf' + error);
+        this.snackBar.open(error, '', {
           duration: 4000,
           panelClass: ['red', 'white-text'],
           verticalPosition: 'top', // 'top' | 'bottom'
@@ -173,6 +173,8 @@ export class ApiService {
       .pipe(catchError(this.handleError<any>('store login')));
   }
 
+
+  //TODO: Validar que solo devuelva los que tienen status habilitado
 
   addClient(client: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}cliente/insert`, client, httpOptions)

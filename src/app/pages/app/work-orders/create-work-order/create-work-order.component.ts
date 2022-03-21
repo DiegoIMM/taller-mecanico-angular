@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {ApiService} from '../../../../services/api.service';
 import {CreateClientComponent} from '../../clients/create-client/create-client.component';
 import {CreateVehicleComponent} from '../../vehicles/create-vehicle/create-vehicle.component';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-create-work-order',
@@ -18,6 +19,8 @@ export class CreateWorkOrderComponent implements OnInit {
   loadingClients = true;
   allVehicles: any[] = [];
   loadingVehicles = true;
+  allCarParts: any[] = [];
+  loadingCarParts = true;
 
   constructor(private dialog: MatDialog,
               private fb: FormBuilder,
@@ -35,6 +38,7 @@ export class CreateWorkOrderComponent implements OnInit {
       detalle: this.fb.array([
         this.fb.group({
           descripcion: new FormControl(''),
+          codigoRepuestos: new FormControl(''),
           recargo: new FormControl('', [Validators.required])
         })
       ], [Validators.required]),
@@ -78,6 +82,7 @@ export class CreateWorkOrderComponent implements OnInit {
     });
   }
 
+
   getAllClients(): void {
     this.allClients = [];
     this.loadingClients = true;
@@ -87,9 +92,7 @@ export class CreateWorkOrderComponent implements OnInit {
       }, error: error => {
         console.log(error);
       }, complete: () => {
-
         this.loadingClients = false;
-
       }
     });
   }
@@ -110,10 +113,28 @@ export class CreateWorkOrderComponent implements OnInit {
     });
   }
 
+  getAllCarParts(): void {
+    this.loadingCarParts = true;
+    this.api.getAllCarParts().subscribe({
+      next: data => {
+        console.warn(data.repuestoDtoList);
+        this.allCarParts = data.repuestoDtoList;
+
+      }, error: error => {
+        console.log(error);
+      }, complete: () => {
+
+        this.loadingCarParts = false;
+
+      }
+    });
+  }
+
 
   ngOnInit(): void {
     this.getAllClients();
     this.getAllVehicles();
+    this.getAllCarParts();
 
   }
 
