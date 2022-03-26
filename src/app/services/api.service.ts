@@ -54,8 +54,8 @@ export class ApiService {
       // }
 
       if (error.status === 400) {
-        console.warn('asfdasdf' + error);
-        this.snackBar.open(error, '', {
+        console.warn('asfdasdf' + error.error);
+        this.snackBar.open(error.error, '', {
           duration: 4000,
           panelClass: ['red', 'white-text'],
           verticalPosition: 'top', // 'top' | 'bottom'
@@ -169,7 +169,7 @@ export class ApiService {
   }
 
   login(user: any): Observable<any> {
-    return this.http.post<any>(`${authUrl}login`, user, httpOptions)
+    return this.http.post<any>(`${authUrl}login/`, user, httpOptions)
       .pipe(catchError(this.handleError<any>('store login')));
   }
 

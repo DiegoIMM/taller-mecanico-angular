@@ -26,22 +26,22 @@ export class AppComponent {
   profile: User | undefined;
 
   ngOnInit(): void {
-    console.warn('Aquí se chequea el token');
-    const token = localStorage.getItem('access_token');
-    console.log(token);
-    if (token) {
-
-      this.api.getActualUser().subscribe(
-        (user: any) => {
-          // this.profile = user;
-          console.log(user);
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
-
+    // console.warn('Aquí se chequea el token');
+    // const token = localStorage.getItem('access_token');
+    // console.log(token);
+    // if (token) {
+    //
+    //   this.api.getActualUser().subscribe(
+    //     (user: any) => {
+    //       // this.profile = user;
+    //       console.log(user);
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     }
+    //   );
+    // }
+    //
 
   }
 

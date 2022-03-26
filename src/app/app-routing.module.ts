@@ -1,7 +1,17 @@
 import {Injectable, NgModule} from '@angular/core';
-import {ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy, RouterModule, Routes} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  DetachedRouteHandle,
+  RouteReuseStrategy,
+  RouterModule, RouterStateSnapshot,
+  Routes, UrlTree
+} from '@angular/router';
 
 import {NotFoundComponent} from './pages/not-found/not-found.component';
+import {AuthService} from './services/auth.service';
+import {Observable} from 'rxjs';
+import {AuthGuard} from './guards/auth.guard';
 
 
 @Injectable()
@@ -26,11 +36,13 @@ export class MyStrategy extends RouteReuseStrategy {
   }
 }
 
+
 const routes: Routes = [
   {path: '', redirectTo: 'app', pathMatch: 'full'},
   {
     path: 'app',
-    loadChildren: () => import('./pages/app/app.module').then(m => m.AppModule)
+    loadChildren: () => import('./pages/app/app.module').then(m => m.AppModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',

@@ -34,14 +34,14 @@ export class AuthService {
     return this.token;
   }
 
-  saveUser(token: string, user: any): void {
-    this.saveToken(token);
+  saveUser(user: any): void {
     localStorage.setItem('current_user', JSON.stringify(user));
 
   }
 
   getCurrentUser(): User | null {
     const userString = localStorage.getItem('current_user');
+    console.log(userString);
     if (userString != null || userString !== undefined) {
       if (userString) {
         return User.fromJson(JSON.parse(userString));

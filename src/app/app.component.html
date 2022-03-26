@@ -16,50 +16,47 @@
                  [fixedInViewport]="mobileQuery.matches">
       <mat-nav-list>
 
-        <div mat-subheader>app</div>
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <div  *ngIf="auth.isLogged()" mat-subheader>app</div>
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app">
           <mat-icon mat-list-icon>home</mat-icon>
           <div mat-line>Inicio</div>
         </mat-list-item>
 
 
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app/clientes">
-          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon mat-list-icon>people</mat-icon>
           <div mat-line>Clientes</div>
         </mat-list-item>
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app/vehiculos">
-          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon mat-list-icon>directions_car</mat-icon>
           <div mat-line>Vehículos</div>
         </mat-list-item>
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app/ordenes-de-trabajo">
-          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon mat-list-icon>list_alt</mat-icon>
           <div mat-line>Ordenes de trabajo</div>
         </mat-list-item>
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app/repuestos">
-          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon mat-list-icon>plumbing</mat-icon>
           <div mat-line>Repuestos</div>
         </mat-list-item>
-        <mat-list-item routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
+        <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
                        routerLink="/app/proveedores">
-          <mat-icon mat-list-icon>home</mat-icon>
+          <mat-icon mat-list-icon>warehouse</mat-icon>
           <div mat-line>Proveedores</div>
         </mat-list-item>
-        <!--        <mat-list-item routerLinkActive="light-blue accent-2" routerLink="auth/SignUp">-->
-        <!--          <mat-icon mat-list-icon>input</mat-icon>-->
-        <!--          <div mat-line>Registrarse</div>-->
-        <!--        </mat-list-item>-->
 
-        <mat-list-item *ngIf="auth.isLogged()" (click)="goToProfile()"
-                       routerLink="/app/perfil/{{auth.getCurrentUser()!.username}}"
-                       [routerLinkActiveOptions]="{exact:true}" routerLinkActive="light-blue accent-2">
-          <mat-icon mat-list-icon>account_circle</mat-icon>
-          <div mat-line>Mi perfil {{auth.getCurrentUser()?.name}}</div>
-        </mat-list-item>
+
+<!--        <mat-list-item *ngIf="auth.isLogged()" (click)="goToProfile()"-->
+<!--                       routerLink="/app/perfil/{{auth.getCurrentUser()!.username}}"-->
+<!--                       [routerLinkActiveOptions]="{exact:true}" routerLinkActive="light-blue accent-2">-->
+<!--          <mat-icon mat-list-icon>account_circle</mat-icon>-->
+<!--          <div mat-line>Mi perfil {{auth.getCurrentUser()?.name}}</div>-->
+<!--        </mat-list-item>-->
         <div mat-subheader>Autenticación</div>
         <mat-list-item *ngIf="!auth.isLogged()" routerLinkActive="light-blue accent-2" routerLink="/auth/Login">
           <mat-icon mat-list-icon>fingerprint</mat-icon>

@@ -61,10 +61,10 @@ export class SignupComponent implements OnInit {
   createAccount(): void {
     // //console.log('SignUp ->', this.signUpFrom.value);
     this.api.signUp(this.signUpForm.value).subscribe(
-      (res) => {
-        console.warn('res -> ', res);
-        if (res) {
-          this.auth.saveUser(res.token, res.user);
+      (user) => {
+        console.warn('res -> ', user);
+        if (user) {
+          this.auth.saveUser(user);
 
           this.router.navigate(['/app']);
           this.snackBar.open('Sesión iniciada correctamente', '', {
