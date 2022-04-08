@@ -42,8 +42,9 @@ export class ProvidersComponent implements OnInit {
     this.loadingTable = true;
     this.api.getAllProviders().subscribe({
       next: data => {
+        console.warn(data);
         console.warn(data.proveedorDtoList);
-        this.dataSource = new MatTableDataSource(data.proveedorDtoList);
+        this.dataSource = new MatTableDataSource(data);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
         }

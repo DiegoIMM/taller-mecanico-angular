@@ -41,8 +41,9 @@ export class CarPartsComponent implements OnInit {
     this.loadingTable = true;
     this.api.getAllCarParts().subscribe({
       next: data => {
-        console.warn(data.repuestoDtoList);
-        this.dataSource = new MatTableDataSource(data.repuestoDtoList);
+        console.warn(data);
+        //console.warn(data.repuestoDtoList);
+        this.dataSource = new MatTableDataSource(data);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
         }

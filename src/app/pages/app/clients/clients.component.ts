@@ -41,7 +41,9 @@ export class ClientsComponent implements OnInit {
     this.loadingTable = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.dataSource = new MatTableDataSource(data.clienteDtoList);
+        console.warn(data);
+        //console.warn(data.clienteDtoList);
+        this.dataSource = new MatTableDataSource(data);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
         }

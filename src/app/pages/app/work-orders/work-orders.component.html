@@ -11,3 +11,63 @@
 <div *ngIf="loadingTable">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
+
+
+<div *ngIf="!loadingTable">
+  <div *ngIf="dataSource!.data.length === 0"> No hay ordenes de trabajo creadas</div>
+  <div *ngIf="dataSource!.data.length > 0">
+
+    <mat-form-field appearance="standard">
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource!" matSort>
+
+        <ng-container matColumnDef="numeroOrden">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="numeroOrden"> numeroOrden</th>
+          <td mat-cell *matCellDef="let row"> {{row.numeroOrden}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="patenteVehiculo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="patenteVehiculo"> patenteVehiculo</th>
+          <td mat-cell *matCellDef="let row"> {{row.patenteVehiculo}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="rutCliente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="rutCliente"> rutCliente</th>
+          <td mat-cell *matCellDef="let row"> {{row.rutCliente}} </td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="valorOt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="valorOt"> valorOt</th>
+          <td mat-cell *matCellDef="let row"> {{row.valorOt}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaIngreso">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="fechaIngreso"> fechaIngreso</th>
+          <td mat-cell *matCellDef="let row"> {{row.fechaIngreso}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="detalle">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="detalle"> detalle</th>
+          <td mat-cell *matCellDef="let row"> {{row.detalle}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </div>
+
+</div>
