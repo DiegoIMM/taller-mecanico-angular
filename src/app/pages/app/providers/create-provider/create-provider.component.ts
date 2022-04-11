@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-create-provider',
@@ -16,11 +17,13 @@ export class CreateProviderComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private api: ApiService,
+              private auth: AuthService,
               public dialogRef: MatDialogRef<CreateProviderComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     this.createProviderForm = this.fb.group({
+      idEmpresa: new FormControl(null, [Validators.required]),
       nombre: new FormControl('', [Validators.required]),
       apellido: new FormControl('', [Validators.required]),
       rut: new FormControl('', [Validators.required]),
@@ -30,6 +33,8 @@ export class CreateProviderComponent implements OnInit {
       telefono: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required])
     });
+    this.createProviderForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
   }
 
   onNoClick(): void {
@@ -38,6 +43,7 @@ export class CreateProviderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
   async saveProvider(): Promise<void> {

@@ -5,6 +5,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
+import {AuthService} from './auth.service';
+import {User} from '../models/User';
 
 //
 // const apiUrl = 'http://127.0.0.1:8080/api/';
@@ -38,6 +40,17 @@ export class ApiService {
         Authorization: 'Bearer ' + this.token
       })
     };
+  }
+
+  private getCurrentUser(): User | null {
+    const userString = localStorage.getItem('current_user');
+    console.log(userString);
+    if (userString != null || userString !== undefined) {
+      if (userString) {
+        return User.fromJson(JSON.parse(userString));
+      }
+    }
+    return null;
   }
 
   private handleError<T>(operation = 'operation', result?: T): (error: any) => Observable<T> {
@@ -87,7 +100,7 @@ export class ApiService {
       }
       if (error.status === 404) {
         this.router.navigated = false;
-        this.router.navigate(['/site']).then(() => {
+        this.router.navigate(['/404']).then(() => {
           // console.log(error.error.message);
         });
       } // log to console instead
@@ -117,9 +130,13 @@ export class ApiService {
   }
 
   logoutUser(): void {
+
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_in');
     localStorage.removeItem('current_user');
+    this.router.navigate(['/auth']).then(() => {
+      // console.log(error.error.message);
+    });
   }
 
   /**
@@ -206,8 +223,9 @@ export class ApiService {
   }
 
   getAllProviders(): Observable<any> {
+    const id = this.getCurrentUser()!.empresa.id;
     return this.http
-      .get(apiUrl + 'proveedor/all', httpOptions)
+      .get(apiUrl + 'proveedor/empresa/' + id, httpOptions)
       .pipe(catchError(this.handleError('get getAllProveedores')));
   }
 

@@ -61,7 +61,25 @@ export class VehiclesComponent implements OnInit {
 
   openCreateVehicles(): void {
     this.dialog.open(CreateVehicleComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Crear Vehiculo',
+        data:null
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllVehicles();
+      }
+    });
+  }
+  openEditVehicles(): void {
+    this.dialog.open(CreateVehicleComponent, {
+      width: '1290px',
+      data: {
+        title: 'Editar Vehiculo',
+        data:{}
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {

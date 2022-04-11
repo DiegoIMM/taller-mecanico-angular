@@ -1,17 +1,22 @@
 export class User {
+  //TODO: Ajustar al modelo de la bdd
+
+
   id?: number | null;
-  name: string;
-  username: string;
-  email: string;
-  profile_picture?: string;
+  users: string;
+  pass: string;
+  rol: string;
+  habilitado: number;
+  empresa: Empresa;
 
 
-  constructor(name: string, username: string, email: string, profile_picture?: string, id?: number) {
+  constructor(users: string, pass: string, rol: string, habilitado: number, empresa: Empresa, id?: number) {
     this.id = id ? id : null;
-    this.name = name;
-    this.username = username;
-    this.email = email;
-    this.profile_picture = profile_picture ? profile_picture : '';
+    this.users = users;
+    this.pass = pass;
+    this.rol = rol;
+    this.empresa = empresa;
+    this.habilitado = habilitado;
 
   }
 
@@ -19,10 +24,11 @@ export class User {
 //  crear un User desde un json
   static fromJson(json: any): User {
     return new User(
-      json.name,
-      json.username,
-      json.email,
-      json.profile_picture,
+      json.users,
+      json.pass,
+      json.rol,
+      json.habilitado,
+      json.empresa,
       json.id
     );
   }
@@ -31,13 +37,23 @@ export class User {
 //  crear un json desde un User
   toJson(): any {
     return {
-      name: this.name,
-      username: this.username,
-      email: this.email,
-      profile_picture: this.profile_picture,
+      users: this.users,
+      pass: this.pass,
+      rol: this.rol,
+      habilitado: this.habilitado,
+      empresa: this.empresa,
       id: this.id
     };
+
+
   }
-
-
 }
+
+interface Empresa {
+  id?: number | null;
+  nombre: string;
+  direccion: string;
+  rut: string;
+}
+
+

@@ -24,9 +24,10 @@ export class CreateVehicleComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
+    console.log('Datos recibidos', data);
     this.createVehicleForm = this.fb.group({
       marca: new FormControl('', [Validators.required]),
-      modelo: new FormControl('', [Validators.required]),
+      modelo: new FormControl({value: 'Impreza', disabled: false}, [Validators.required]),
       patente: new FormControl('', [Validators.required]),
       anio: new FormControl('', [Validators.required]),
       numeroMotor: new FormControl('', [Validators.required]),

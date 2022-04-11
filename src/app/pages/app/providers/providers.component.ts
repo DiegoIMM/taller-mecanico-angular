@@ -16,7 +16,7 @@ export class ProvidersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Nombre', 'Dirección', 'Email', 'Teléfono'];
+  displayedColumns: string[] = ['Nombre', 'Dirección', 'Email', 'Teléfono', 'Acciones'];
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 
@@ -69,6 +69,41 @@ export class ProvidersComponent implements OnInit {
       }
     });
   }
+
+
+  openDetails(): void {
+    this.dialog.open(CreateProviderComponent, {
+      width: '1290px'
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllProviders();
+      }
+    });
+  }
+
+  openEdit(): void {
+    this.dialog.open(CreateProviderComponent, {
+      width: '1290px'
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllProviders();
+      }
+    });
+  }
+
+  openDelete(): void {
+    this.dialog.open(CreateProviderComponent, {
+      width: '500px'
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllProviders();
+      }
+    });
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

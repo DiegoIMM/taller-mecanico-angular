@@ -50,6 +50,18 @@ export class AuthService {
     return null;
   }
 
+  getIdEmpresa(): number | null {
+    const userString = localStorage.getItem('current_user');
+    console.log(userString);
+    if (userString != null || userString !== undefined) {
+      if (userString) {
+        return User.fromJson(JSON.parse(userString)).empresa.id!;
+      }
+    }
+    return null;
+  }
+
+
   getUserName(): any {
     const userString = localStorage.getItem('current_user');
     if (userString != null || userString !== undefined) {
@@ -66,9 +78,13 @@ export class AuthService {
   }
 
   logoutUser(): void {
+
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_in');
     localStorage.removeItem('current_user');
+    this.router.navigate(['/auth']).then(() => {
+      // console.log(error.error.message);
+    });
   }
 
 }
