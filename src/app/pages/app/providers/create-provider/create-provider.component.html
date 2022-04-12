@@ -1,12 +1,18 @@
-<h1 mat-dialog-title>Crear Proveedor</h1>
-<mat-dialog-content class="mat-typography">
+<form [formGroup]="createProviderForm" class="row">
+  <h1 class="col s6" mat-dialog-title>{{data.title}}</h1>
+
+  <mat-slide-toggle formControlName="habilitado" class="col s6">
+    Habilitado
+  </mat-slide-toggle>
+
+  <mat-dialog-content class="mat-typography">
 
 
-  <form [formGroup]="createProviderForm" class="row">
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Nombre</mat-label>
       <input type="text" formControlName="nombre" matInput placeholder="Pedro">
-      <mat-error *ngIf="createProviderForm.controls['nombre'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm.controls['nombre'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
 
 
@@ -53,7 +59,8 @@
     <mat-form-field class="col s12" appearance="outline">
       <mat-label>Email</mat-label>
       <input type="text" formControlName="email" matInput placeholder="example@gmail.com">
-      <mat-error *ngIf="createProviderForm .controls['email'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm .controls['email'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="col s12" appearance="outline">
       <mat-label>Dirección</mat-label>
@@ -61,17 +68,32 @@
       <mat-error *ngIf="createProviderForm .controls['direccion'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>
-  </form>
 
-</mat-dialog-content>
+  </mat-dialog-content>
+
+</form>
+
 <mat-dialog-actions align="end">
-  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
-  <button mat-button cdkFocusInitial [disabled]="!createProviderForm.valid || loadingButton" (click)="saveProvider()">
+  <button color="warn" mat-button [mat-dialog-close]="null">Cerrar</button>
+
+
+  <button class="green" *ngIf="data.title == 'Crear proveedor'" mat-button cdkFocusInitial
+          [disabled]="!createProviderForm.valid || loadingButton" (click)="saveProvider()">
     Crear
     <mat-icon *ngIf="loadingButton">
       <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
     </mat-icon>
     <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+
+  <button class="yellow darken-2" *ngIf="data.title == 'Editar proveedor'" mat-button cdkFocusInitial
+          [disabled]="!createProviderForm.valid || loadingButton" (click)="saveProvider()">
+    Editar
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">edit</mat-icon>
 
   </button>
 </mat-dialog-actions>

@@ -4,6 +4,7 @@ import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-create-car-parts',
@@ -20,11 +21,14 @@ export class CreateCarPartsComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private api: ApiService,
+              private auth: AuthService,
               public dialogRef: MatDialogRef<CreateCarPartsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     this.createCarPartsForm = this.fb.group({
+      idEmpresa: new FormControl(null, [Validators.required]),
+      habilitado: new FormControl(1, [Validators.required]),
       nombre: new FormControl('', [Validators.required]),
       codigo: new FormControl('', [Validators.required]),
       anio: new FormControl('', [Validators.required]),
@@ -32,6 +36,8 @@ export class CreateCarPartsComponent implements OnInit {
       valor: new FormControl('', [Validators.required]),
       rutProveedor: new FormControl('', [Validators.required])
     });
+    this.createCarPartsForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
   }
 
   onNoClick(): void {

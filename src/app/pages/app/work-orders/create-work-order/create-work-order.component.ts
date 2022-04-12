@@ -5,6 +5,7 @@ import {ApiService} from '../../../../services/api.service';
 import {CreateClientComponent} from '../../clients/create-client/create-client.component';
 import {CreateVehicleComponent} from '../../vehicles/create-vehicle/create-vehicle.component';
 import {MatTableDataSource} from '@angular/material/table';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-create-work-order',
@@ -25,11 +26,14 @@ export class CreateWorkOrderComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private fb: FormBuilder,
               private api: ApiService,
+              private auth: AuthService,
               public dialogRef: MatDialogRef<CreateWorkOrderComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     this.createWorkOrderForm = this.fb.group({
+      idEmpresa: new FormControl(null, [Validators.required]),
+      habilitado: new FormControl(1, [Validators.required]),
       numeroOrden: new FormControl('', [Validators.required]),
       fechaIngreso: new FormControl('', [Validators.required]),
       rutCliente: new FormControl('', [Validators.required]),
@@ -47,6 +51,8 @@ export class CreateWorkOrderComponent implements OnInit {
 
 
     });
+    this.createWorkOrderForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
   }
 
   get detalleFormArray(): FormArray {

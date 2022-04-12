@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
-import {AuthService} from './auth.service';
 import {User} from '../models/User';
 
 //
@@ -224,6 +223,7 @@ export class ApiService {
 
   getAllProviders(): Observable<any> {
     const id = this.getCurrentUser()!.empresa.id;
+    console.warn('id', id);
     return this.http
       .get(apiUrl + 'proveedor/empresa/' + id, httpOptions)
       .pipe(catchError(this.handleError('get getAllProveedores')));
@@ -252,5 +252,15 @@ export class ApiService {
       .pipe(catchError(this.handleError('get getAllWorkOrders')));
   }
 
+
+  deleteElement(endpoint: string, object: any): Observable<any> {
+
+    const httpOptionsDelete = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}), body: object
+    };
+
+    return this.http.delete<any>(`${apiUrl}${endpoint}/delete`, httpOptionsDelete)
+      .pipe(catchError(this.handleError<any>('delete element')));
+  }
 
 }

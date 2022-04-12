@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Elimiar {{data.categoryToDelete}}</h1>
+<mat-dialog-content class="mat-typography">
+
+  <p>¿Está seguro que desea eliminar {{data.title}}?</p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="null">Cancelar</button>
+  <button color="warn" mat-button (click)="delete()">
+    Eliminar
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">delete</mat-icon>
+
+  </button>
+</mat-dialog-actions>

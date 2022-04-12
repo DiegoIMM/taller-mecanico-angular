@@ -6,6 +6,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from '../../../services/api.service';
 import {CreateCarPartsComponent} from '../car-parts/create-car-parts/create-car-parts.component';
 import {CreateProviderComponent} from './create-provider/create-provider.component';
+import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete-content-modal.component';
+import {DeleteDataModal} from '../../../models/DeleteDataModal';
 
 @Component({
   selector: 'app-providers',
@@ -43,7 +45,6 @@ export class ProvidersComponent implements OnInit {
     this.api.getAllProviders().subscribe({
       next: data => {
         console.warn(data);
-        console.warn(data.proveedorDtoList);
         this.dataSource = new MatTableDataSource(data);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
@@ -61,7 +62,12 @@ export class ProvidersComponent implements OnInit {
 
   openCreateProvider(): void {
     this.dialog.open(CreateProviderComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Crear proveedor',
+        provider: null,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -71,9 +77,14 @@ export class ProvidersComponent implements OnInit {
   }
 
 
-  openDetails(): void {
+  openDetails(provider: any): void {
     this.dialog.open(CreateProviderComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Detalles proveedor',
+        provider: provider,
+        edit: false
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -82,9 +93,14 @@ export class ProvidersComponent implements OnInit {
     });
   }
 
-  openEdit(): void {
+  openEdit(provider: any): void {
     this.dialog.open(CreateProviderComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Editar proveedor',
+        provider: provider,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -93,9 +109,17 @@ export class ProvidersComponent implements OnInit {
     });
   }
 
-  openDelete(): void {
-    this.dialog.open(CreateProviderComponent, {
-      width: '500px'
+  openDelete(provider: any): void {
+    const data: DeleteDataModal = {
+      title: provider.nombre,
+      categoryToDelete: 'Proveedor',
+      idToDelete: provider.id,
+      endpoint: 'proveedor'
+    };
+
+    this.dialog.open(DeleteContentModalComponent, {
+      width: '500px',
+      data: data
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {

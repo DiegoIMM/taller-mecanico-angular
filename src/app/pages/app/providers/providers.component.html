@@ -55,15 +55,25 @@
         <ng-container matColumnDef="Acciones">
           <th mat-header-cell *matHeaderCellDef> Acciones</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="openDetails()">
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button mat-icon-button (click)="openEdit()">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="openDelete()">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="valign-wrapper">
+
+              <div class="col s4">
+                <button class="green" mat-mini-fab (click)="openDetails(row)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </div>
+              <div class="col s4">
+                <button class="yellow darken-2" mat-mini-fab (click)="openEdit(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </div>
+              <div class="col s4">
+                <button class="red" mat-mini-fab (click)="openDelete(row)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
           </td>
 
         </ng-container>

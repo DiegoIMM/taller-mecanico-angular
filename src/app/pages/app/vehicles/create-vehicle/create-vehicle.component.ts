@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CreateClientComponent} from '../../clients/create-client/create-client.component';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -20,12 +21,15 @@ export class CreateVehicleComponent implements OnInit {
   constructor(private dialog: MatDialog,
               private fb: FormBuilder,
               private api: ApiService,
+              private auth: AuthService,
               public dialogRef: MatDialogRef<CreateVehicleComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     console.log('Datos recibidos', data);
     this.createVehicleForm = this.fb.group({
+      idEmpresa: new FormControl(null, [Validators.required]),
+      habilitado: new FormControl(1, [Validators.required]),
       marca: new FormControl('', [Validators.required]),
       modelo: new FormControl({value: 'Impreza', disabled: false}, [Validators.required]),
       patente: new FormControl('', [Validators.required]),
@@ -36,6 +40,8 @@ export class CreateVehicleComponent implements OnInit {
       color: new FormControl('', [Validators.required]),
       kilometraje: new FormControl('', [Validators.required])
     });
+    this.createVehicleForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
   }
 
   onNoClick(): void {

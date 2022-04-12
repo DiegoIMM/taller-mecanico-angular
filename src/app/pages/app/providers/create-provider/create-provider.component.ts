@@ -24,14 +24,39 @@ export class CreateProviderComponent implements OnInit {
 
     this.createProviderForm = this.fb.group({
       idEmpresa: new FormControl(null, [Validators.required]),
-      nombre: new FormControl('', [Validators.required]),
-      apellido: new FormControl('', [Validators.required]),
-      rut: new FormControl('', [Validators.required]),
-      direccion: new FormControl('', [Validators.required]),
-      comuna: new FormControl('', [Validators.required]),
-      ciudad: new FormControl('', [Validators.required]),
-      telefono: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required])
+      habilitado: new FormControl(1, [Validators.required]),
+      nombre: new FormControl({
+        value: data.provider ? data.provider.nombre : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      apellido: new FormControl({
+        value: data.provider ? data.provider.apellido : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      rut: new FormControl({
+        value: data.provider ? data.provider.rut : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      direccion: new FormControl({
+        value: data.provider ? data.provider.direccion : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      comuna: new FormControl({
+        value: data.provider ? data.provider.comuna : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      ciudad: new FormControl({
+        value: data.provider ? data.provider.ciudad : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      telefono: new FormControl({
+        value: data.provider ? data.provider.telefono : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      email: new FormControl({
+        value: data.provider ? data.provider.email : null,
+        disabled: !data.edit
+      }, [Validators.required])
     });
     this.createProviderForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 

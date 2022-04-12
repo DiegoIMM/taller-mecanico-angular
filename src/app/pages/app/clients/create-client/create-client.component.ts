@@ -21,6 +21,7 @@ export class CreateClientComponent implements OnInit {
   ) {
 
     this.createClientForm = this.fb.group({
+      habilitado: new FormControl(1, [Validators.required]),
       nombre: new FormControl('', [Validators.required]),
       apellido: new FormControl('', [Validators.required]),
       rut: new FormControl('', [Validators.required]),
