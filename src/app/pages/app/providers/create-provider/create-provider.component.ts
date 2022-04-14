@@ -43,6 +43,8 @@ export class CreateProviderComponent implements OnInit {
         value: data.provider ? data.provider.rut : null,
         disabled: !data.edit
       }, [Validators.required]),
+
+
       direccion: new FormControl({
         value: data.provider ? data.provider.direccion : null,
         disabled: !data.edit
@@ -121,5 +123,6 @@ export class CreateProviderComponent implements OnInit {
     this.createProviderForm.updateValueAndValidity();
 
   }
+
 
 }

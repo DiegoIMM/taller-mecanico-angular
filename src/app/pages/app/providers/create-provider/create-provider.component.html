@@ -28,6 +28,7 @@
       <mat-label>Rut</mat-label>
       <input type="text" formControlName="rut" matInput placeholder="11.111.111-1">
       <mat-error *ngIf="createProviderForm.controls['rut'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createProviderForm.controls['rut'].errors?.['pattern']">Formato de ru no válido</mat-error>
     </mat-form-field>
 
     <mat-form-field class="col s12 m6" appearance="outline">
