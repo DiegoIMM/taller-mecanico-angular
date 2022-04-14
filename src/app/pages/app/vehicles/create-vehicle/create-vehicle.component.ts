@@ -29,9 +29,9 @@ export class CreateVehicleComponent implements OnInit {
     console.log('Datos recibidos', data);
     this.createVehicleForm = this.fb.group({
       idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(1, [Validators.required]),
+      habilitado: new FormControl(true, [Validators.required]),
       marca: new FormControl('', [Validators.required]),
-      modelo: new FormControl({value: 'Impreza', disabled: false}, [Validators.required]),
+      modelo: new FormControl({value: '', disabled: false}, [Validators.required]),
       patente: new FormControl('', [Validators.required]),
       anio: new FormControl('', [Validators.required]),
       numeroMotor: new FormControl('', [Validators.required]),
@@ -67,7 +67,7 @@ export class CreateVehicleComponent implements OnInit {
     this.loadingClients = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.allClients = data.clienteDtoList;
+        this.allClients = data;
       }, error: error => {
         console.log(error);
       }, complete: () => {

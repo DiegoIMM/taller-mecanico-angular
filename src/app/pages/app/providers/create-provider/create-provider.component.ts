@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AuthService} from '../../../../services/auth.service';
+import Regiones from '../../../../helpers/regiones.json';
 
 @Component({
   selector: 'app-create-provider',
@@ -13,7 +14,8 @@ export class CreateProviderComponent implements OnInit {
 
   createProviderForm: FormGroup;
   loadingButton = false;
-
+  regiones = Regiones;
+  communes: any[] = [];
 
   constructor(private fb: FormBuilder,
               private api: ApiService,
@@ -23,6 +25,10 @@ export class CreateProviderComponent implements OnInit {
   ) {
 
     this.createProviderForm = this.fb.group({
+      id: new FormControl({
+        value: data.provider ? data.provider.id : null,
+        disabled: false
+      }),
       idEmpresa: new FormControl(null, [Validators.required]),
       habilitado: new FormControl(true, [Validators.required]),
       nombre: new FormControl({
@@ -52,11 +58,11 @@ export class CreateProviderComponent implements OnInit {
       telefono: new FormControl({
         value: data.provider ? data.provider.telefono : null,
         disabled: !data.edit
-      }, [Validators.required]),
+      }, [Validators.required, Validators.pattern('^([+]?[\\s0-9]+)?(\\d{3}|[(]?[0-9]+[)])?([-]?[\\s]?[0-9])+$')]),
       email: new FormControl({
         value: data.provider ? data.provider.email : null,
         disabled: !data.edit
-      }, [Validators.required])
+      }, [Validators.required, Validators.email])
     });
     this.createProviderForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
@@ -68,7 +74,10 @@ export class CreateProviderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.updateCommunes();
+    if (this.data) {
+      this.createProviderForm.get('ciudad')!.setValue(this.data.provider.ciudad);
+    }
   }
 
   async saveProvider(): Promise<void> {
@@ -88,5 +97,29 @@ export class CreateProviderComponent implements OnInit {
 
   }
 
+  async editProvider(): Promise<void> {
+    // this.loadingButton = true;
+    console.warn(this.createProviderForm.value);
+
+    this.api.editProvider(this.createProviderForm.value).subscribe({
+      next: (res: any) => {
+        console.log('res', res);
+        if (res) {
+          this.dialogRef.close(res.id);
+        }
+      }, error: (err: any) => {
+        console.error('err', err);
+      }
+    });
+
+  }
+
+  updateCommunes() {
+    this.createProviderForm.updateValueAndValidity();
+    this.createProviderForm.controls['ciudad'].reset();
+    this.communes = this.regiones.regions.find(region => region.name == this.createProviderForm.controls['comuna'].value)!.communes;
+    this.createProviderForm.updateValueAndValidity();
+
+  }
 
 }

@@ -47,7 +47,6 @@ export class CreateClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.regiones.regions);
 
   }
 

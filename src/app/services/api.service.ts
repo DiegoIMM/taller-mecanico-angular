@@ -52,6 +52,17 @@ export class ApiService {
     return null;
   }
 
+  getIdEmpresa(): number | null {
+    const userString = localStorage.getItem('current_user');
+    console.log(userString);
+    if (userString != null || userString !== undefined) {
+      if (userString) {
+        return User.fromJson(JSON.parse(userString)).empresa.id!;
+      }
+    }
+    return null;
+  }
+
   private handleError<T>(operation = 'operation', result?: T): (error: any) => Observable<T> {
     return (error: any): Observable<T> => {
       console.error('Se captura el error: ', error);
@@ -190,8 +201,6 @@ export class ApiService {
   }
 
 
-  //TODO: Validar que solo devuelva los que tienen status habilitado
-
   addClient(client: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}cliente/insert`, client, httpOptions)
       .pipe(catchError(this.handleError<any>('add Client')));
@@ -200,7 +209,7 @@ export class ApiService {
 
   getAllClients(): Observable<any> {
     return this.http
-      .get(apiUrl + 'cliente/all', httpOptions)
+      .get(apiUrl + 'cliente/empresa/' + this.getIdEmpresa(), httpOptions)
       .pipe(catchError(this.handleError('get getAllClients')));
   }
 
@@ -211,7 +220,7 @@ export class ApiService {
 
   getAllCarParts(): Observable<any> {
     return this.http
-      .get(apiUrl + 'repuesto/all', httpOptions)
+      .get(apiUrl + 'repuesto/empresa/' + this.getIdEmpresa(), httpOptions)
       .pipe(catchError(this.handleError('get getAllRepuestos')));
   }
 
@@ -220,12 +229,14 @@ export class ApiService {
     return this.http.post<any>(`${apiUrl}proveedor/insert`, provider, httpOptions)
       .pipe(catchError(this.handleError<any>('add Proveedor')));
   }
+  editProvider(provider: any): Observable<any> {
+    return this.http.put<any>(`${apiUrl}proveedor/update`, provider, httpOptions)
+      .pipe(catchError(this.handleError<any>('add Proveedor')));
+  }
 
   getAllProviders(): Observable<any> {
-    const id = this.getCurrentUser()!.empresa.id;
-    console.warn('id', id);
     return this.http
-      .get(apiUrl + 'proveedor/empresa/' + id, httpOptions)
+      .get(apiUrl + 'proveedor/empresa/' + this.getIdEmpresa(), httpOptions)
       .pipe(catchError(this.handleError('get getAllProveedores')));
   }
 
@@ -237,7 +248,7 @@ export class ApiService {
 
   getAllVehicles(): Observable<any> {
     return this.http
-      .get(apiUrl + 'vehiculo/all', httpOptions)
+      .get(apiUrl + 'vehiculo/empresa/' + this.getIdEmpresa(), httpOptions)
       .pipe(catchError(this.handleError('get getAllVehiculos')));
   }
 
@@ -248,7 +259,7 @@ export class ApiService {
 
   getAllWorkOrders(): Observable<any> {
     return this.http
-      .get(apiUrl + 'ordenTrabajo/all', httpOptions)
+      .get(apiUrl + 'ordenTrabajo/empresa/' + this.getIdEmpresa(), httpOptions)
       .pipe(catchError(this.handleError('get getAllWorkOrders')));
   }
 

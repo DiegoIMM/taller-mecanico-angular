@@ -42,10 +42,25 @@ export class ProvidersComponent implements OnInit {
 
   getAllProviders(): void {
     this.loadingTable = true;
+    // limpiar dataSource
+    if (this.dataSource) {
+      this.dataSource.data = [];
+    }
+
     this.api.getAllProviders().subscribe({
       next: data => {
         console.warn(data);
-        this.dataSource = new MatTableDataSource(data);
+        var enabledProviders: any[] = [];
+
+        data.forEach((provider: any) => {
+
+          if (provider.habilitado) {
+            enabledProviders.push(provider);
+          }
+        });
+
+
+        this.dataSource = new MatTableDataSource(enabledProviders);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
         }

@@ -1,9 +1,9 @@
 <form [formGroup]="createProviderForm" class="row">
   <h1 class="col s6" mat-dialog-title>{{data.title}}</h1>
 
-<!--  <mat-slide-toggle formControlName="habilitado" class="col s6">-->
-<!--    Habilitado-->
-<!--  </mat-slide-toggle>-->
+  <!--  <mat-slide-toggle formControlName="habilitado" class="col s6">-->
+  <!--    Habilitado-->
+  <!--  </mat-slide-toggle>-->
 
   <mat-dialog-content class="mat-typography">
 
@@ -32,27 +32,32 @@
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Teléfono</mat-label>
-      <input type="text" formControlName="telefono" matInput placeholder="+569 32421212">
+      <input type="tel" formControlName="telefono" matInput placeholder="+569 32421212">
       <mat-error *ngIf="createProviderForm.controls['telefono'].errors?.['required']">Este campo es requerido
+      </mat-error>
+
+      <mat-error *ngIf="createProviderForm.controls['telefono'].errors?.['pattern']">Formato de teléfono no válido
       </mat-error>
     </mat-form-field>
 
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Region</mat-label>
-      <mat-select formControlName="comuna">
-        <mat-option value="region de prueba">
-          region 1
+      <mat-select (selectionChange)="updateCommunes()" formControlName="comuna">
+        <mat-option *ngFor="let region of regiones.regions" [value]="region.name">
+          {{region.name}}
         </mat-option>
+
       </mat-select>
     </mat-form-field>
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Comuna</mat-label>
       <mat-select formControlName="ciudad">
-        <mat-option value="region de prueba">
-          comuna 1
+        <mat-option *ngFor="let commune of communes" [value]="commune.name">
+          {{commune.name}}
         </mat-option>
+
       </mat-select>
     </mat-form-field>
 
@@ -60,6 +65,8 @@
       <mat-label>Email</mat-label>
       <input type="text" formControlName="email" matInput placeholder="example@gmail.com">
       <mat-error *ngIf="createProviderForm .controls['email'].errors?.['required']">Este campo es requerido
+      </mat-error>
+      <mat-error *ngIf="createProviderForm .controls['email'].errors?.['email']">Formato de correo no válido
       </mat-error>
     </mat-form-field>
     <mat-form-field class="col s12" appearance="outline">
@@ -88,7 +95,7 @@
   </button>
 
   <button class="yellow darken-2" *ngIf="data.title == 'Editar proveedor'" mat-button cdkFocusInitial
-          [disabled]="!createProviderForm.valid || loadingButton" (click)="saveProvider()">
+          [disabled]="!createProviderForm.valid || loadingButton" (click)="editProvider()">
     Editar
     <mat-icon *ngIf="loadingButton">
       <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
