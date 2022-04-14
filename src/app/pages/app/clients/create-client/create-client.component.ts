@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
+import {AuthService} from '../../../../services/auth.service';
+import Regiones from '../../../../helpers/regiones.json';
 
 @Component({
   selector: 'app-create-client',
@@ -12,16 +14,21 @@ export class CreateClientComponent implements OnInit {
 
   createClientForm: FormGroup;
   loadingButton = false;
-
+  regiones = Regiones;
+  communes: any[] = [];
 
   constructor(private fb: FormBuilder,
               private api: ApiService,
+              private auth: AuthService,
               public dialogRef: MatDialogRef<CreateClientComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
     this.createClientForm = this.fb.group({
-      habilitado: new FormControl(1, [Validators.required]),
+      idEmpresa: new FormControl(null, [Validators.required]),
+
+      habilitado: new FormControl(true, [Validators.required]),
+
       nombre: new FormControl('', [Validators.required]),
       apellido: new FormControl('', [Validators.required]),
       rut: new FormControl('', [Validators.required]),
@@ -30,6 +37,8 @@ export class CreateClientComponent implements OnInit {
       ciudad: new FormControl('', [Validators.required]),
       telefono: new FormControl('', [Validators.required])
     });
+    this.createClientForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
   }
 
   onNoClick(): void {
@@ -38,6 +47,13 @@ export class CreateClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.regiones.regions);
+
+  }
+
+  updateCommunes() {
+    this.createClientForm.controls['ciudad'].reset();
+    this.communes = this.regiones.regions.find(region => region.name == this.createClientForm.controls['comuna'].value)!.communes;
   }
 
   async saveClient(): Promise<void> {
@@ -59,8 +75,6 @@ export class CreateClientComponent implements OnInit {
 
 
   }
-
-
 
 
 }

@@ -24,7 +24,7 @@ export class CreateProviderComponent implements OnInit {
 
     this.createProviderForm = this.fb.group({
       idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(1, [Validators.required]),
+      habilitado: new FormControl(true, [Validators.required]),
       nombre: new FormControl({
         value: data.provider ? data.provider.nombre : null,
         disabled: !data.edit

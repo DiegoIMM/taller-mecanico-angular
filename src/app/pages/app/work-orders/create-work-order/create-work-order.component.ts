@@ -33,7 +33,7 @@ export class CreateWorkOrderComponent implements OnInit {
 
     this.createWorkOrderForm = this.fb.group({
       idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(1, [Validators.required]),
+      habilitado: new FormControl(true, [Validators.required]),
       numeroOrden: new FormControl('', [Validators.required]),
       fechaIngreso: new FormControl('', [Validators.required]),
       rutCliente: new FormControl('', [Validators.required]),
@@ -161,6 +161,7 @@ export class CreateWorkOrderComponent implements OnInit {
 
 
   async saveWorkOrder(): Promise<void> {
+
     // this.loadingButton = true;
     console.log(this.createWorkOrderForm.value);
 
