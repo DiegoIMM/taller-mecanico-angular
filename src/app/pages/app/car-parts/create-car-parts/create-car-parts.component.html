@@ -26,8 +26,14 @@
     </mat-form-field>
 
     <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Marca</mat-label>
+      <input type="text" formControlName="marca" matInput placeholder="Kia">
+      <mat-error *ngIf="createCarPartsForm.controls['marca'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Modelo</mat-label>
-      <input type="text" formControlName="modelo" matInput placeholder="Kia morning">
+      <input type="text" formControlName="modelo" matInput placeholder="Morning">
       <mat-error *ngIf="createCarPartsForm.controls['modelo'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>

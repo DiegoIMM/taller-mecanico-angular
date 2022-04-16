@@ -28,10 +28,11 @@ export class CreateCarPartsComponent implements OnInit {
 
     this.createCarPartsForm = this.fb.group({
       idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(1, [Validators.required]),
+      habilitado: new FormControl(true, [Validators.required]),
       nombre: new FormControl('', [Validators.required]),
       codigo: new FormControl('', [Validators.required]),
       anio: new FormControl('', [Validators.required]),
+      marca: new FormControl('', [Validators.required]),
       modelo: new FormControl('', [Validators.required]),
       valor: new FormControl('', [Validators.required]),
       rutProveedor: new FormControl('', [Validators.required])
@@ -53,8 +54,18 @@ export class CreateCarPartsComponent implements OnInit {
     this.loadingProviders = true;
     this.api.getAllProviders().subscribe({
       next: data => {
-        console.warn(data.proveedorDtoList);
-        this.allProviders = data.proveedorDtoList;
+
+        console.warn(data);
+        var enabledProviders: any[] = [];
+
+        data.forEach((provider: any) => {
+
+          if (provider.habilitado) {
+            enabledProviders.push(provider);
+          }
+        });
+
+        this.allProviders = enabledProviders;
 
       }, error: error => {
         console.log(error);

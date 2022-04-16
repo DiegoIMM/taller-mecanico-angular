@@ -14,45 +14,92 @@ import {CreateVehicleComponent} from './create-vehicle/create-vehicle.component'
 })
 export class VehiclesComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Patente', 'Marca', 'Modelo', 'Año', 'Dueño'];
-  loadingTable = true;
 
-  dataSource: MatTableDataSource<any> | undefined;
-
+  loadingVehicles = false;
+  loadingClients = false;
+  allClients: any[] = [];
+  selectedClient: any = null;
+  patente: string = '';
 
   constructor(private dialog: MatDialog, private api: ApiService) {
 
   }
 
+
   ngOnInit(): void {
-    this.getAllVehicles();
+    this.getAllClients();
   }
 
-  updatePaginatorAndSort() {
-    setTimeout(() => {
-      this.dataSource!.paginator = this.paginator!;
-      this.getAndInitTranslations();
-      this.dataSource!.sort = this.sort!;
-    }, 50);
+  selectClient() {
+    this.patente = '';
+    console.log(this.selectedClient);
+  }
+
+  changePatente() {
+    this.selectedClient = null;
+    console.log(this.patente);
+
+    // this.loadingVehicles = true;
+    // this.api.getVehiclesByPatente(this.patente).subscribe(
+    //   (data: any) => {
+    //     this.loadingVehicles = false;
+    //     console.log(data);
+    //   },
+    //   (error: any) => {
+    //     this.loadingVehicles = false;
+    //     console.log(error);
+    //   }
+    // );
+  }
+
+  searchVehicles() {
+    if (this.patente == '' && this.selectedClient == null) {
+      alert('Debe ingresar una patente o un cliente');
+      return;
+
+    }
+    this.loadingVehicles = true;
+
+    if (this.selectedClient != null) {
+      alert('Buscar por cliente: ' + this.selectedClient);
+      this.loadingVehicles = false;
+
+      return;
+    }
+
+    if (this.patente != '') {
+      alert('Buscar por patente: ' + this.patente);
+      this.loadingVehicles = false;
+
+      return;
+    }
+    this.loadingVehicles = false;
+
+    alert('Debe ingresar una patente o un cliente NO DEBERIA LLEGAR ACA');
 
   }
 
-  getAllVehicles(): void {
-    this.loadingTable = true;
-    this.api.getAllVehicles().subscribe({
+  getAllClients(): void {
+    this.loadingClients = true;
+    this.api.getAllClients().subscribe({
       next: data => {
-        console.warn(data.vehiculoDtoList);
-        this.dataSource = new MatTableDataSource(data.vehiculoDtoList);
-        if (this.dataSource.data.length > 0) {
-          this.updatePaginatorAndSort();
-        }
+        console.warn(data);
+        var enabledClients: any[] = [];
+
+        data.forEach((client: any) => {
+
+          if (client.habilitado) {
+            enabledClients.push(client);
+          }
+        });
+        this.allClients = enabledClients;
+
+
       }, error: error => {
         console.log(error);
       }, complete: () => {
 
-        this.loadingTable = false;
+        this.loadingClients = false;
 
       }
     });
@@ -64,57 +111,29 @@ export class VehiclesComponent implements OnInit {
       width: '1290px',
       data: {
         title: 'Crear Vehiculo',
-        data:null
+        data: null
       }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.getAllVehicles();
+        // this.getAllVehicles();
       }
     });
   }
+
   openEditVehicles(): void {
     this.dialog.open(CreateVehicleComponent, {
       width: '1290px',
       data: {
         title: 'Editar Vehiculo',
-        data:{}
+        data: {}
       }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.getAllVehicles();
+        // this.getAllVehicles();
       }
     });
-  }
-
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource!.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource!.paginator) {
-      this.dataSource!.paginator.firstPage();
-    }
-  }
-
-  getAndInitTranslations() {
-
-
-    this.paginator!._intl.itemsPerPageLabel = 'Items por página';
-    this.paginator!._intl.nextPageLabel = 'Siguiente ';
-    this.paginator!._intl.previousPageLabel = 'Anterior';
-    this.paginator!._intl.previousPageLabel = 'Anterior';
-    this.paginator!._intl.changes.next();
-    this.paginator!._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-      if (length === 0 || pageSize === 0) {
-        return `0 / ${length}`;
-      }
-      length = Math.max(length, 0);
-      const startIndex = page * pageSize;
-      const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-      return `${startIndex + 1} - ${endIndex} / ${length}`;
-    };
   }
 
 

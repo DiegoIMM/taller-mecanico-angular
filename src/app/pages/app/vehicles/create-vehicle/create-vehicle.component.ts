@@ -4,6 +4,7 @@ import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CreateClientComponent} from '../../clients/create-client/create-client.component';
 import {AuthService} from '../../../../services/auth.service';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -28,6 +29,7 @@ export class CreateVehicleComponent implements OnInit {
 
     console.log('Datos recibidos', data);
     this.createVehicleForm = this.fb.group({
+      id: new FormControl(null),
       idEmpresa: new FormControl(null, [Validators.required]),
       habilitado: new FormControl(true, [Validators.required]),
       marca: new FormControl('', [Validators.required]),
@@ -63,11 +65,21 @@ export class CreateVehicleComponent implements OnInit {
   }
 
   getAllClients(): void {
-    this.allClients = [];
     this.loadingClients = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.allClients = data;
+        console.warn(data);
+        var enabledClients: any[] = [];
+
+        data.forEach((client: any) => {
+
+          if (client.habilitado) {
+            enabledClients.push(client);
+          }
+        });
+        this.allClients = enabledClients;
+
+
       }, error: error => {
         console.log(error);
       }, complete: () => {
