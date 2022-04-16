@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Crear cliente</h1>
+<h1 mat-dialog-title>{{data.title}}</h1>
 <mat-dialog-content class="mat-typography">
 
 
@@ -61,7 +61,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
-  <button mat-button cdkFocusInitial [disabled]="!createClientForm.valid || loadingButton" (click)="saveClient()">
+  <button *ngIf="data.title === 'Crear cliente'" mat-button cdkFocusInitial
+          [disabled]="!createClientForm.valid || loadingButton" (click)="saveClient()">
     Crear
     <mat-icon *ngIf="loadingButton">
       <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
@@ -69,5 +70,14 @@
     <mat-icon *ngIf="!loadingButton">send</mat-icon>
 
   </button>
+
+  <button *ngIf="data.title === 'Editar cliente'" mat-button cdkFocusInitial
+          [disabled]="!createClientForm.valid || loadingButton" (click)="editClient()">
+    Editar
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">edit</mat-icon>
+
+  </button>
 </mat-dialog-actions>
-{{createClientForm.value | json}}

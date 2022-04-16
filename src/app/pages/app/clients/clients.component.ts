@@ -5,6 +5,9 @@ import {ApiService} from '../../../services/api.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {CreateProviderComponent} from '../providers/create-provider/create-provider.component';
+import {DeleteDataModal} from '../../../models/DeleteDataModal';
+import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete-content-modal.component';
 
 @Component({
   selector: 'app-clients',
@@ -15,7 +18,7 @@ export class ClientsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Nombre', 'Comuna', 'Dirección', 'Teléfono'];
+  displayedColumns: string[] = ['Nombre', 'Comuna', 'Dirección', 'Teléfono', 'Acciones'];
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 
@@ -39,15 +42,28 @@ export class ClientsComponent implements OnInit {
 
   getAllClients(): void {
     this.loadingTable = true;
+    // limpiar dataSource
+    if (this.dataSource) {
+      this.dataSource.data = [];
+    }
+
     this.api.getAllClients().subscribe({
       next: data => {
         console.warn(data);
-        //console.warn(data.clienteDtoList);
-        this.dataSource = new MatTableDataSource(data);
+        var enabledClients: any[] = [];
+
+        data.forEach((client: any) => {
+
+          if (client.habilitado) {
+            enabledClients.push(client);
+          }
+        });
+
+
+        this.dataSource = new MatTableDataSource(enabledClients);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();
         }
-
       }, error: error => {
         console.log(error);
       }, complete: () => {
@@ -61,7 +77,12 @@ export class ClientsComponent implements OnInit {
 
   openCreateClient(): void {
     this.dialog.open(CreateClientComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Crear cliente',
+        client: null,
+        edit: false
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -69,6 +90,58 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
+
+  openDetails(client: any): void {
+    this.dialog.open(CreateClientComponent, {
+      width: '1290px',
+      data: {
+        title: 'Detalles cliente',
+        client: client,
+        edit: false
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllClients();
+      }
+    });
+  }
+
+  openEdit(client: any): void {
+    this.dialog.open(CreateClientComponent, {
+      width: '1290px',
+      data: {
+        title: 'Editar cliente',
+        client: client,
+        edit: true
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllClients();
+      }
+    });
+  }
+
+  openDelete(client: any): void {
+    const data: DeleteDataModal = {
+      title: client.nombre,
+      categoryToDelete: 'Cliente',
+      idToDelete: client.id,
+      endpoint: 'cliente'
+    };
+
+    this.dialog.open(DeleteContentModalComponent, {
+      width: '500px',
+      data: data
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllClients();
+      }
+    });
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

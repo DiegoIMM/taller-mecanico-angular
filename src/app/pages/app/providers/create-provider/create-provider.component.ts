@@ -29,8 +29,14 @@ export class CreateProviderComponent implements OnInit {
         value: data.provider ? data.provider.id : null,
         disabled: false
       }),
-      idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(true, [Validators.required]),
+      idEmpresa: new FormControl({
+        value: data.provider ? data.provider.idEmpresa : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      habilitado: new FormControl({
+        value: data.provider ? data.provider.habilitado : true,
+        disabled: !data.edit
+      }, [Validators.required]),
       nombre: new FormControl({
         value: data.provider ? data.provider.nombre : null,
         disabled: !data.edit

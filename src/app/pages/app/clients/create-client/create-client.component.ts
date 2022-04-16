@@ -23,19 +23,50 @@ export class CreateClientComponent implements OnInit {
               public dialogRef: MatDialogRef<CreateClientComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
+    console.warn(data);
     this.createClientForm = this.fb.group({
-      idEmpresa: new FormControl(null, [Validators.required]),
+      id: new FormControl({
+        value: data.client ? data.client.id : null,
+        disabled: false
+      }),
+      idEmpresa: new FormControl({
+        value: data.idEmpresa ? data.client.idEmpresa : null,
+        disabled: !data.edit
+      }, [Validators.required]),
 
-      habilitado: new FormControl(true, [Validators.required]),
+      habilitado: new FormControl({
+        value: data.client ? data.client.habilitado : true,
+        disabled: !data.edit
+      }, [Validators.required]),
 
-      nombre: new FormControl('', [Validators.required]),
-      apellido: new FormControl('', [Validators.required]),
-      rut: new FormControl('', [Validators.required]),
-      direccion: new FormControl('', [Validators.required]),
-      comuna: new FormControl('', [Validators.required]),
-      ciudad: new FormControl('', [Validators.required]),
-      telefono: new FormControl('', [Validators.required])
+      nombre: new FormControl({
+        value: data.client ? data.client.nombre : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      apellido: new FormControl({
+        value: data.client ? data.client.apellido : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      rut: new FormControl({
+        value: data.client ? data.client.rut : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      direccion: new FormControl({
+        value: data.client ? data.client.direccion : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      comuna: new FormControl({
+        value: data.client ? data.client.comuna : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      ciudad: new FormControl({
+        value: data.client ? data.client.ciudad : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      telefono: new FormControl({
+        value: data.client ? data.client.telefono : null,
+        disabled: !data.edit
+      }, [Validators.required])
     });
     this.createClientForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
@@ -47,12 +78,19 @@ export class CreateClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.updateCommunes();
+    if (this.data) {
+      this.createClientForm.get('ciudad')!.setValue(this.data.client.ciudad);
+    }
   }
 
   updateCommunes() {
+
+    this.createClientForm.updateValueAndValidity();
     this.createClientForm.controls['ciudad'].reset();
     this.communes = this.regiones.regions.find(region => region.name == this.createClientForm.controls['comuna'].value)!.communes;
+    this.createClientForm.updateValueAndValidity();
+
   }
 
   async saveClient(): Promise<void> {
@@ -74,6 +112,27 @@ export class CreateClientComponent implements OnInit {
 
 
   }
+
+  async editClient(): Promise<void> {
+    // this.loadingButton = true;
+    console.log(this.createClientForm.value);
+
+    this.api.editClient(this.createClientForm.value).subscribe({
+      next: (res: any) => {
+        console.log('res', res);
+        if (res) {
+          this.dialogRef.close(res.id);
+        }
+      }, error: (err: any) => {
+        console.error('err', err);
+      }
+    });
+
+    // const question: Question = Question.fromJson(this.createQuestionForm.getRawValue());
+
+
+  }
+
 
 
 }

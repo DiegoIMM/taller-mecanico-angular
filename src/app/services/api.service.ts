@@ -206,6 +206,10 @@ export class ApiService {
       .pipe(catchError(this.handleError<any>('add Client')));
   }
 
+  editClient(client: any): Observable<any> {
+    return this.http.put<any>(`${apiUrl}cliente/update`, client, httpOptions)
+      .pipe(catchError(this.handleError<any>('edit client')));
+  }
 
   getAllClients(): Observable<any> {
     return this.http
@@ -229,9 +233,10 @@ export class ApiService {
     return this.http.post<any>(`${apiUrl}proveedor/insert`, provider, httpOptions)
       .pipe(catchError(this.handleError<any>('add Proveedor')));
   }
+
   editProvider(provider: any): Observable<any> {
     return this.http.put<any>(`${apiUrl}proveedor/update`, provider, httpOptions)
-      .pipe(catchError(this.handleError<any>('add Proveedor')));
+      .pipe(catchError(this.handleError<any>('edit Proveedor')));
   }
 
   getAllProviders(): Observable<any> {
