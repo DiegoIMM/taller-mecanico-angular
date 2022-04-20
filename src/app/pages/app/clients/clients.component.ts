@@ -81,7 +81,7 @@ export class ClientsComponent implements OnInit {
       data: {
         title: 'Crear cliente',
         client: null,
-        edit: false
+        edit: true
       }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);

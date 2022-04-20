@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AuthService} from '../../../../services/auth.service';
-import Regiones from '../../../../helpers/regiones.json';
+import * as Regiones from '../../../../../assets/Regiones.json';
 
 @Component({
   selector: 'app-create-provider',
