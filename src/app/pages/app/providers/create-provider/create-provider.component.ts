@@ -125,7 +125,7 @@ export class CreateProviderComponent implements OnInit {
   updateCommunes() {
     this.createProviderForm.updateValueAndValidity();
     this.createProviderForm.controls['ciudad'].reset();
-    this.communes = this.regiones.regions.find(region => region.name == this.createProviderForm.controls['comuna'].value)!.communes;
+    this.communes = this.regiones.regions.find((region: any) => region.name == this.createProviderForm.controls['comuna'].value)!.communes;
     this.createProviderForm.updateValueAndValidity();
 
   }

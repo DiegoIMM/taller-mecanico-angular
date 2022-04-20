@@ -88,7 +88,7 @@ export class CreateClientComponent implements OnInit {
 
     this.createClientForm.updateValueAndValidity();
     this.createClientForm.controls['ciudad'].reset();
-    this.communes = this.regiones.regions.find(region => region.name == this.createClientForm.controls['comuna'].value)!.communes;
+    this.communes = this.regiones.regions.find((region: any) => region.name == this.createClientForm.controls['comuna'].value)!.communes;
     this.createClientForm.updateValueAndValidity();
 
   }
