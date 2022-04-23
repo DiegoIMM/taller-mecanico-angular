@@ -17,7 +17,9 @@ const authUrl = environment.authUrl;
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
   })
 };
 
@@ -36,13 +38,16 @@ export class ApiService {
     this.httpOptionsWithToken = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.token
+        Authorization: 'Bearer ' + this.token,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+
       })
     };
   }
 
   private getCurrentUser(): User | null {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     console.log(userString);
     if (userString != null || userString !== undefined) {
       if (userString) {
@@ -53,7 +58,7 @@ export class ApiService {
   }
 
   getIdEmpresa(): number | null {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     console.log(userString);
     if (userString != null || userString !== undefined) {
       if (userString) {
@@ -131,7 +136,7 @@ export class ApiService {
       // if (error.status == 401) {  // TODO fix me para refresh
       //   localStorage.removeItem('access_token');
       //   localStorage.removeItem('expires_in');
-      //   localStorage.removeItem('current_user');
+      //   localStorage.removeItem('current_user_tm');
       //   this.location.go('/auth/login');
       // }
       // Let the app keep running by returning an empty result.
@@ -143,7 +148,7 @@ export class ApiService {
 
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_in');
-    localStorage.removeItem('current_user');
+    localStorage.removeItem('current_user_tm');
     this.router.navigate(['/auth']).then(() => {
       // console.log(error.error.message);
     });
@@ -251,9 +256,16 @@ export class ApiService {
       .pipe(catchError(this.handleError<any>('add Vehiculo')));
   }
 
-  getAllVehicles(): Observable<any> {
+
+  getVehiclesByClient(rut: string): Observable<any> {
     return this.http
-      .get(apiUrl + 'vehiculo/empresa/' + this.getIdEmpresa(), httpOptions)
+      .get(apiUrl + 'vehiculo/cliente/' + rut, httpOptions)
+      .pipe(catchError(this.handleError('get getAllVehiculos')));
+  }
+
+  getVehiclesByPatente(patente: string): Observable<any> {
+    return this.http
+      .get(apiUrl + 'vehiculo/' + patente, httpOptions)
       .pipe(catchError(this.handleError('get getAllVehiculos')));
   }
 

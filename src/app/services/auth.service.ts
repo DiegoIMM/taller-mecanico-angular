@@ -35,12 +35,12 @@ export class AuthService {
   }
 
   saveUser(user: any): void {
-    localStorage.setItem('current_user', JSON.stringify(user));
+    localStorage.setItem('current_user_tm', JSON.stringify(user));
 
   }
 
   getCurrentUser(): User | null {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     console.log(userString);
     if (userString != null || userString !== undefined) {
       if (userString) {
@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   getIdEmpresa(): number | null {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     console.log(userString);
     if (userString != null || userString !== undefined) {
       if (userString) {
@@ -63,7 +63,7 @@ export class AuthService {
 
 
   getUserName(): any {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     if (userString != null || userString !== undefined) {
       if (userString) {
         return JSON.parse(userString).username;
@@ -73,7 +73,7 @@ export class AuthService {
 
 
   isLogged(): boolean {
-    const userString = localStorage.getItem('current_user');
+    const userString = localStorage.getItem('current_user_tm');
     return !!userString;
   }
 
@@ -81,7 +81,7 @@ export class AuthService {
 
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_in');
-    localStorage.removeItem('current_user');
+    localStorage.removeItem('current_user_tm');
     this.router.navigate(['/auth']).then(() => {
       // console.log(error.error.message);
     });

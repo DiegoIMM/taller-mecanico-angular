@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from '../../../services/api.service';
 import {CreateCarPartsComponent} from '../car-parts/create-car-parts/create-car-parts.component';
 import {CreateVehicleComponent} from './create-vehicle/create-vehicle.component';
+import {MatListOption, MatSelectionList} from '@angular/material/list';
 
 @Component({
   selector: 'app-vehicles',
@@ -21,7 +22,10 @@ export class VehiclesComponent implements OnInit {
   selectedClient: any = null;
   patente: string = '';
 
+  vehicles: any[] = [];
+
   constructor(private dialog: MatDialog, private api: ApiService) {
+
 
   }
 
@@ -32,8 +36,35 @@ export class VehiclesComponent implements OnInit {
 
   selectClient() {
     this.patente = '';
+    this.loadingVehicles = true;
+
     console.log(this.selectedClient);
+
+
+    if (this.selectedClient != null) {
+      this.api.getVehiclesByClient(this.selectedClient).subscribe({
+        next: (data: any) => {
+          this.vehicles = data.vehiculoDtoList;
+          this.loadingVehicles = false;
+          console.log(data);
+        }, error: (error: any) => {
+          this.loadingVehicles = false;
+          console.error(error);
+        }, complete: () => {
+          this.loadingVehicles = false;
+
+        }
+      });
+
+    }
+
+
   }
+
+  onSelectedVehicleChange(options: MatListOption[]) {
+    console.log(options.map(o => o.value));
+  }
+
 
   changePatente() {
     this.selectedClient = null;
@@ -60,17 +91,18 @@ export class VehiclesComponent implements OnInit {
     }
     this.loadingVehicles = true;
 
-    if (this.selectedClient != null) {
-      alert('Buscar por cliente: ' + this.selectedClient);
-      this.loadingVehicles = false;
-
-      return;
-    }
-
     if (this.patente != '') {
-      alert('Buscar por patente: ' + this.patente);
       this.loadingVehicles = false;
-
+      this.api.getVehiclesByPatente(this.patente).subscribe({
+        next: (data: any) => {
+          this.vehicles = [data];
+          this.loadingVehicles = false;
+          console.log(data);
+        }, error: (error: any) => {
+          this.loadingVehicles = false;
+          console.error(error);
+        }
+      });
       return;
     }
     this.loadingVehicles = false;

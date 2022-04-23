@@ -103,21 +103,6 @@ export class CreateWorkOrderComponent implements OnInit {
     });
   }
 
-  getAllVehicles(): void {
-    this.allVehicles = [];
-    this.loadingVehicles = true;
-    this.api.getAllVehicles().subscribe({
-      next: data => {
-        this.allVehicles = data.vehiculoDtoList;
-      }, error: error => {
-        console.log(error);
-      }, complete: () => {
-
-        this.loadingVehicles = false;
-
-      }
-    });
-  }
 
   getAllCarParts(): void {
     this.loadingCarParts = true;
@@ -139,7 +124,6 @@ export class CreateWorkOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllClients();
-    this.getAllVehicles();
     this.getAllCarParts();
 
   }

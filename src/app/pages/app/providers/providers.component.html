@@ -58,18 +58,18 @@
             <div class="valign-wrapper">
 
               <div class="col s4">
-                <button class="green" mat-mini-fab (click)="openDetails(row)">
-                  <mat-icon>visibility</mat-icon>
+                <button mat-icon-button (click)="openDetails(row)">
+                  <mat-icon class="green-text text-darken-2">visibility</mat-icon>
                 </button>
               </div>
               <div class="col s4">
-                <button class="yellow darken-2" mat-mini-fab (click)="openEdit(row)">
-                  <mat-icon>edit</mat-icon>
+                <button mat-icon-button (click)="openEdit(row)">
+                  <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
                 </button>
               </div>
               <div class="col s4">
-                <button class="red" mat-mini-fab (click)="openDelete(row)">
-                  <mat-icon>delete</mat-icon>
+                <button mat-icon-button (click)="openDelete(row)">
+                  <mat-icon class="red-text text-darken-2">delete</mat-icon>
                 </button>
               </div>
             </div>
