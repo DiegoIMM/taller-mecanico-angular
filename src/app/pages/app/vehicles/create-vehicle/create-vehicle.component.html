@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Crear Vehículo</h1>
+<h1 mat-dialog-title>{{data.title}}</h1>
 <mat-dialog-content class="mat-typography">
 
 
@@ -21,7 +21,7 @@
     </mat-form-field>
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Año</mat-label>
-      <input type="text" formControlName="anio" matInput placeholder="2018">
+      <input type="number" formControlName="anio" matInput placeholder="2018">
       <mat-error *ngIf="createVehicleForm.controls['anio'].errors?.['required']">Este campo es requerido</mat-error>
     </mat-form-field>
     <mat-form-field class="col s12 m6" appearance="outline">
@@ -66,12 +66,22 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
-  <button mat-button cdkFocusInitial [disabled]="!createVehicleForm.valid || loadingButton" (click)="saveVehicle()">
+  <button *ngIf="data.title === 'Crear Vehículo'" mat-button cdkFocusInitial
+          [disabled]="!createVehicleForm.valid || loadingButton" (click)="saveVehicle()">
     Crear
     <mat-icon *ngIf="loadingButton">
       <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
     </mat-icon>
     <mat-icon *ngIf="!loadingButton">send</mat-icon>
+
+  </button>
+
+  <button *ngIf="data.title === 'Editar Vehículo'" mat-button cdkFocusInitial [disabled]="!createVehicleForm.valid || loadingButton" (click)="editVehicle()">
+    Editar
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">edit</mat-icon>
 
   </button>
 </mat-dialog-actions>

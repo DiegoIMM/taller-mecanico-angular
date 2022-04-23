@@ -66,16 +66,15 @@
       <!--      FIXME: Da error en la consola por cambiar el valor, aunque funciona igual-->
       <div class="col s10">
         <h1>{{selectedVehicle.selectedOptions.selected[0]?.value.marca | uppercase}} {{selectedVehicle.selectedOptions.selected[0]?.value.modelo | uppercase}} </h1>
-
       </div>
       <div class="col s2">
         <div class="col s6">
-          <button mat-icon-button (click)="openEditVehicles()">
+          <button mat-icon-button (click)="openEditVehicles(selectedVehicle.selectedOptions.selected[0]?.value)">
             <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
           </button>
         </div>
         <div class="col s6">
-          <button mat-icon-button (click)="openEditVehicles()">
+          <button mat-icon-button (click)="openDelete(selectedVehicle.selectedOptions.selected[0]?.value)">
             <mat-icon class="red-text text-darken-2">delete</mat-icon>
           </button>
         </div>

@@ -7,6 +7,8 @@ import {ApiService} from '../../../services/api.service';
 import {CreateCarPartsComponent} from '../car-parts/create-car-parts/create-car-parts.component';
 import {CreateVehicleComponent} from './create-vehicle/create-vehicle.component';
 import {MatListOption, MatSelectionList} from '@angular/material/list';
+import {DeleteDataModal} from '../../../models/DeleteDataModal';
+import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete-content-modal.component';
 
 @Component({
   selector: 'app-vehicles',
@@ -36,33 +38,9 @@ export class VehiclesComponent implements OnInit {
 
   selectClient() {
     this.patente = '';
-    this.loadingVehicles = true;
-
     console.log(this.selectedClient);
 
 
-    if (this.selectedClient != null) {
-      this.api.getVehiclesByClient(this.selectedClient).subscribe({
-        next: (data: any) => {
-          this.vehicles = data.vehiculoDtoList;
-          this.loadingVehicles = false;
-          console.log(data);
-        }, error: (error: any) => {
-          this.loadingVehicles = false;
-          console.error(error);
-        }, complete: () => {
-          this.loadingVehicles = false;
-
-        }
-      });
-
-    }
-
-
-  }
-
-  onSelectedVehicleChange(options: MatListOption[]) {
-    console.log(options.map(o => o.value));
   }
 
 
@@ -89,7 +67,27 @@ export class VehiclesComponent implements OnInit {
       return;
 
     }
+
     this.loadingVehicles = true;
+    if (this.selectedClient != null) {
+      this.api.getVehiclesByClient(this.selectedClient).subscribe({
+        next: (data: any) => {
+
+          let activeVehicles = data.vehiculoDtoList.filter((vehicle: any) => vehicle.habilitado);
+
+          this.vehicles = activeVehicles;
+          this.loadingVehicles = false;
+          console.log(data);
+        }, error: (error: any) => {
+          this.loadingVehicles = false;
+          console.error(error);
+        }, complete: () => {
+          this.loadingVehicles = false;
+
+        }
+      });
+      return;
+    }
 
     if (this.patente != '') {
       this.loadingVehicles = false;
@@ -142,8 +140,9 @@ export class VehiclesComponent implements OnInit {
     this.dialog.open(CreateVehicleComponent, {
       width: '1290px',
       data: {
-        title: 'Crear Vehiculo',
-        data: null
+        title: 'Crear Vehículo',
+        vehicle: null,
+        edit: true
       }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
@@ -153,17 +152,38 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
-  openEditVehicles(): void {
+  openEditVehicles(vehicle: any): void {
     this.dialog.open(CreateVehicleComponent, {
       width: '1290px',
       data: {
-        title: 'Editar Vehiculo',
-        data: {}
+        title: 'Editar Vehículo',
+        vehicle: vehicle,
+        edit: true
       }
+
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
         // this.getAllVehicles();
+      }
+    });
+  }
+
+  openDelete(vehicle: any): void {
+    const data: DeleteDataModal = {
+      title: (vehicle.marca + ' ' + vehicle.modelo),
+      categoryToDelete: 'Vehiculo',
+      idToDelete: vehicle.id,
+      endpoint: 'vehiculo'
+    };
+
+    this.dialog.open(DeleteContentModalComponent, {
+      width: '500px',
+      data: data
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.searchVehicles();
       }
     });
   }

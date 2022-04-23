@@ -29,18 +29,54 @@ export class CreateVehicleComponent implements OnInit {
 
     console.log('Datos recibidos', data);
     this.createVehicleForm = this.fb.group({
-      id: new FormControl(null),
-      idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(true, [Validators.required]),
-      marca: new FormControl('', [Validators.required]),
-      modelo: new FormControl({value: '', disabled: false}, [Validators.required]),
-      patente: new FormControl('', [Validators.required]),
-      anio: new FormControl('', [Validators.required]),
-      numeroMotor: new FormControl('', [Validators.required]),
-      numeroChasis: new FormControl('', [Validators.required]),
-      rutDueno: new FormControl('', [Validators.required]),
-      color: new FormControl('', [Validators.required]),
-      kilometraje: new FormControl('', [Validators.required])
+      id: new FormControl({
+        value: data.vehicle ? data.vehicle.id : null,
+        disabled: !data.edit
+      }),
+      idEmpresa: new FormControl({
+        value: data.vehicle ? data.vehicle.idEmpresa : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      habilitado: new FormControl({
+        value: data.vehicle ? data.vehicle.habilitado : true,
+        disabled: !data.edit
+      }, [Validators.required]),
+      marca: new FormControl({
+        value: data.vehicle ? data.vehicle.marca : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      modelo: new FormControl({
+        value: data.vehicle ? data.vehicle.modelo : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      patente: new FormControl({
+        value: data.vehicle ? data.vehicle.patente : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      anio: new FormControl({
+        value: data.vehicle ? data.vehicle.anio : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      numeroMotor: new FormControl({
+        value: data.vehicle ? data.vehicle.numeroMotor : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      numeroChasis: new FormControl({
+        value: data.vehicle ? data.vehicle.numeroChasis : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      rutDueno: new FormControl({
+        value: data.vehicle ? data.vehicle.rutDueno : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      color: new FormControl({
+        value: data.vehicle ? data.vehicle.color : '',
+        disabled: !data.edit
+      }, [Validators.required]),
+      kilometraje: new FormControl({
+        value: data.vehicle ? data.vehicle.kilometraje : '',
+        disabled: !data.edit
+      }, [Validators.required])
     });
     this.createVehicleForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
@@ -100,6 +136,22 @@ export class CreateVehicleComponent implements OnInit {
     console.log(this.createVehicleForm.value);
 
     this.api.addVehicle(this.createVehicleForm.value).subscribe({
+      next: (res: any) => {
+        console.log('res', res);
+        if (res) {
+          this.dialogRef.close(res.id);
+        }
+      }, error: (err: any) => {
+        console.error('err', err);
+      }
+    });
+
+  }
+  async editVehicle(): Promise<void> {
+    // this.loadingButton = true;
+    console.log(this.createVehicleForm.value);
+
+    this.api.editVehicle(this.createVehicleForm.value).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {

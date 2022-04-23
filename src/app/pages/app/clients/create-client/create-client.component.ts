@@ -27,7 +27,7 @@ export class CreateClientComponent implements OnInit {
     this.createClientForm = this.fb.group({
       id: new FormControl({
         value: data.client ? data.client.id : null,
-        disabled: false
+        disabled: !data.edit
       }),
       idEmpresa: new FormControl({
         value: data.idEmpresa ? data.client.idEmpresa : null,

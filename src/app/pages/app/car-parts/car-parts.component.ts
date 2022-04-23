@@ -25,7 +25,6 @@ export class CarPartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllCarParts();
   }
 
   updatePaginatorAndSort() {
@@ -37,26 +36,6 @@ export class CarPartsComponent implements OnInit {
 
   }
 
-  getAllCarParts(): void {
-    this.loadingTable = true;
-    this.api.getAllCarParts().subscribe({
-      next: data => {
-        console.warn(data);
-        //console.warn(data.repuestoDtoList);
-        this.dataSource = new MatTableDataSource(data);
-        if (this.dataSource.data.length > 0) {
-          this.updatePaginatorAndSort();
-        }
-      }, error: error => {
-        console.log(error);
-      }, complete: () => {
-
-        this.loadingTable = false;
-
-      }
-    });
-  }
-
 
   openCreateCarParts(): void {
     this.dialog.open(CreateCarPartsComponent, {
@@ -64,7 +43,7 @@ export class CarPartsComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.getAllCarParts();
+        // this.getAllCarParts();
       }
     });
   }
