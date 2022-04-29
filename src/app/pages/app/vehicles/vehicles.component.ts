@@ -73,7 +73,7 @@ export class VehiclesComponent implements OnInit {
       this.api.getVehiclesByClient(this.selectedClient).subscribe({
         next: (data: any) => {
 
-          let activeVehicles = data.vehiculoDtoList.filter((vehicle: any) => vehicle.habilitado);
+          let activeVehicles = data.filter((vehicle: any) => vehicle.habilitado);
 
           this.vehicles = activeVehicles;
           this.loadingVehicles = false;
@@ -164,7 +164,7 @@ export class VehiclesComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        // this.getAllVehicles();
+        this.searchVehicles();
       }
     });
   }

@@ -33,7 +33,7 @@ export class CreateVehicleComponent implements OnInit {
         value: data.vehicle ? data.vehicle.id : null,
         disabled: !data.edit
       }),
-      idEmpresa: new FormControl({
+      id_empresa: new FormControl({
         value: data.vehicle ? data.vehicle.idEmpresa : null,
         disabled: !data.edit
       }, [Validators.required]),
@@ -78,7 +78,7 @@ export class CreateVehicleComponent implements OnInit {
         disabled: !data.edit
       }, [Validators.required])
     });
-    this.createVehicleForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+    this.createVehicleForm.get('id_empresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
   }
 

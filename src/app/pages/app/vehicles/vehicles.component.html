@@ -106,8 +106,22 @@
         <div mat-subheader>Dueño</div>
         <mat-list-item>
           <mat-icon mat-list-icon>face</mat-icon>
-          <div mat-line>Dueño</div>
-          <div mat-line> Nombre dueño</div>
+          <div mat-line>Nombre</div>
+          <div
+            mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].nombre}}
+            {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].apellido}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>home</mat-icon>
+          <div mat-line>Dirección</div>
+          <div
+            mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].direccion}} </div>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>phone</mat-icon>
+          <div mat-line>Teléfono</div>
+          <div
+            mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].telefono}} </div>
         </mat-list-item>
         <mat-divider></mat-divider>
         <div mat-subheader>Ordenes de trabajo</div>
