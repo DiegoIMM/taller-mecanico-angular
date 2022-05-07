@@ -233,6 +233,17 @@ export class ApiService {
       .pipe(catchError(this.handleError('get getAllRepuestos')));
   }
 
+  getCarPartsByProvider(rut: string): Observable<any> {
+    return this.http
+      .get(apiUrl + 'repuesto/proveedor/' + rut, httpOptions)
+      .pipe(catchError(this.handleError('get getProviders')));
+  }
+
+  getCarPartByCode(codigo: string): Observable<any> {
+    return this.http
+      .get(apiUrl + 'repuesto/codigo/' + codigo, httpOptions)
+      .pipe(catchError(this.handleError('get getRepuestoPorCodigo')));
+  }
 
   addProviders(provider: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}proveedor/insert`, provider, httpOptions)
