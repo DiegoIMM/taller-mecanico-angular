@@ -10,35 +10,43 @@
       <mat-error *ngIf="createWorkOrderForm.controls['numeroOrden'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>
+
+    <!--    <mat-form-field class="col s12 m6" appearance="outline">-->
+    <!--      <mat-label>Fecha de ingreso</mat-label>-->
+    <!--      <input matInput formControlName="fechaIngreso" placeholder="15/12/2022" [matDatepicker]="picker">-->
+    <!--      <mat-hint>DD/MM/YYYY</mat-hint>-->
+    <!--      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
+    <!--      <mat-datepicker #picker></mat-datepicker>-->
+    <!--    </mat-form-field>-->
+
+
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Fecha de ingreso</mat-label>
-      <input type="text" formControlName="fechaIngreso" matInput placeholder="20/10/2022">
+      <input type="text" formControlName="fechaIngreso" matInput placeholder="18/05/2022">
       <mat-error *ngIf="createWorkOrderForm.controls['fechaIngreso'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="col s10" appearance="outline">
+
+    <mat-form-field class="col s12" appearance="outline">
       <mat-label>Cliente</mat-label>
-      <mat-select formControlName="rutCliente">
+      <mat-select (selectionChange)="getVehiclesByClient($event.value)" formControlName="rutCliente">
         <mat-option *ngFor="let client of allClients" [value]="client.rut">
           {{client.nombre}} {{client.apellido}}
         </mat-option>
 
       </mat-select>
     </mat-form-field>
-    <button type="button" (click)="openModalCrearCliente()" class="col s2 green" mat-raised-button>Crear nuevo cliente
-    </button>
-    <mat-form-field class="col s10" appearance="outline">
+
+    <mat-form-field class="col s12" appearance="outline">
       <mat-label>Vehículo</mat-label>
       <mat-select formControlName="patenteVehiculo">
         <mat-option *ngFor="let vehicle of allVehicles" [value]="vehicle.patente">
-          {{vehicle.patente}}
+          {{vehicle.patente}} - ({{vehicle.marca}} {{vehicle.modelo}})
         </mat-option>
 
       </mat-select>
     </mat-form-field>
-    <button type="button" (click)="openModalCrearVehiculo()" class="col s2 green" mat-raised-button>Crear nuevo
-      vehiculo
-    </button>
+
 
     <!--    Mostrar formArray -->
 

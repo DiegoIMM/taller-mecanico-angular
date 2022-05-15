@@ -1,10 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {AuthService} from '../../../../services/auth.service';
+import {CreateClientComponent} from '../../clients/create-client/create-client.component';
+import {CreateProviderComponent} from '../../providers/create-provider/create-provider.component';
 
 @Component({
   selector: 'app-create-car-parts',
@@ -22,6 +24,7 @@ export class CreateCarPartsComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private api: ApiService,
               private auth: AuthService,
+              private dialog: MatDialog,
               public dialogRef: MatDialogRef<CreateCarPartsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -40,6 +43,8 @@ export class CreateCarPartsComponent implements OnInit {
     this.createCarPartsForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
   }
+
+
 
   onNoClick(): void {
 
@@ -93,6 +98,24 @@ export class CreateCarPartsComponent implements OnInit {
       }
     });
 
+  }
+
+
+  openModal() {
+    this.dialog.open(CreateProviderComponent, {
+      width: '1000px',
+      data: {
+        title: 'Crear proveedor',
+        client: null,
+        edit: true
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        //TODO: Agregar cliente a la lista sin cargar todos los clientes de nuevo
+        this.getAllProviders();
+      }
+    });
   }
 
 

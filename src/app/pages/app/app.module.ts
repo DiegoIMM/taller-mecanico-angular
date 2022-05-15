@@ -20,6 +20,7 @@ import {CreateProviderComponent} from './providers/create-provider/create-provid
 import {CreateVehicleComponent} from './vehicles/create-vehicle/create-vehicle.component';
 import {CreateWorkOrderComponent} from './work-orders/create-work-order/create-work-order.component';
 import {DeleteContentModalComponent} from './shared/delete-content-modal/delete-content-modal.component';
+import { NoDataComponent } from './no-data/no-data.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {DeleteContentModalComponent} from './shared/delete-content-modal/delete-
     AppComponent, NotFoundComponent, ProfileComponent, ClientsComponent, VehiclesComponent, WorkOrdersComponent,
     CarPartsComponent, ProvidersComponent, CreateClientComponent,
     CreateCarPartsComponent, CreateProviderComponent, CreateVehicleComponent, CreateWorkOrderComponent,
-    DeleteContentModalComponent],
+    DeleteContentModalComponent,
+    NoDataComponent],
   imports: [
     CommonModule,
     AppRoutingModule,

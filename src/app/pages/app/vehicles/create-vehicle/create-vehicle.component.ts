@@ -90,7 +90,12 @@ export class CreateVehicleComponent implements OnInit {
 
   openModal() {
     this.dialog.open(CreateClientComponent, {
-      width: '1000px'
+      width: '1000px',
+      data: {
+        title: 'Crear cliente',
+        client: null,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {

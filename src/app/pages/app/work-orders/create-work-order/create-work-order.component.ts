@@ -35,7 +35,7 @@ export class CreateWorkOrderComponent implements OnInit {
       idEmpresa: new FormControl(null, [Validators.required]),
       habilitado: new FormControl(true, [Validators.required]),
       numeroOrden: new FormControl('', [Validators.required]),
-      fechaIngreso: new FormControl('', [Validators.required]),
+      fechaIngreso: new FormControl(null, [Validators.required]),
       rutCliente: new FormControl('', [Validators.required]),
       patenteVehiculo: new FormControl('', [Validators.required]),
       //Detalle es un array de objetos
@@ -66,7 +66,12 @@ export class CreateWorkOrderComponent implements OnInit {
 
   openModalCrearCliente() {
     this.dialog.open(CreateClientComponent, {
-      width: '1000px'
+      width: '1000px',
+      data: {
+        title: 'Crear cliente',
+        client: null,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -94,7 +99,7 @@ export class CreateWorkOrderComponent implements OnInit {
     this.loadingClients = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.allClients = data.clienteDtoList;
+        this.allClients = data;
       }, error: error => {
         console.log(error);
       }, complete: () => {
@@ -160,6 +165,21 @@ export class CreateWorkOrderComponent implements OnInit {
       }
     });
 
+  }
+
+
+  getVehiclesByClient(rutCliente: number): void {
+    console.log('clientId', rutCliente);
+    this.api.getVehiclesByClient(rutCliente.toString()).subscribe({
+      next: (res: any) => {
+        console.log('res', res);
+        if (res) {
+          this.allVehicles = res;
+        }
+      }, error: (err: any) => {
+        console.error('err', err);
+      }
+    });
   }
 
 

@@ -14,7 +14,8 @@
 
 
 <div *ngIf="!loadingTable">
-  <div *ngIf="dataSource!.data.length === 0"> No hay ordenes de trabajo creadas</div>
+  <div *ngIf="dataSource!.data.length === 0">  <app-no-data></app-no-data>
+  </div>
   <div *ngIf="dataSource!.data.length > 0">
 
     <mat-form-field appearance="standard">

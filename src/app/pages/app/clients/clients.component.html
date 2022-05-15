@@ -14,7 +14,10 @@
 
 
 <div *ngIf="!loadingTable">
-  <div *ngIf="dataSource!.data.length === 0"> No hay clientes creados</div>
+  <div *ngIf="dataSource!.data.length === 0">
+  <app-no-data></app-no-data>
+
+  </div>
   <div *ngIf="dataSource!.data.length > 0">
 
     <mat-form-field appearance="standard">
