@@ -135,7 +135,12 @@ export class CarPartsComponent implements OnInit {
 
   openCreateCarParts(): void {
     this.dialog.open(CreateCarPartsComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Crear Repuesto',
+        carPart: null,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -150,7 +155,7 @@ export class CarPartsComponent implements OnInit {
       width: '1290px',
       data: {
         title: 'Editar Repuesto',
-        vehicle: carPart,
+        carPart: carPart,
         edit: true
       }
 

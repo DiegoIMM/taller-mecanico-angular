@@ -147,6 +147,7 @@ export class VehiclesComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
+        this.getAllClients();
         // this.getAllVehicles();
       }
     });

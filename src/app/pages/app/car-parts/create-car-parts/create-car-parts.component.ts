@@ -28,22 +28,52 @@ export class CreateCarPartsComponent implements OnInit {
               public dialogRef: MatDialogRef<CreateCarPartsComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-
+    console.warn('dataaaaa', data);
     this.createCarPartsForm = this.fb.group({
-      idEmpresa: new FormControl(null, [Validators.required]),
-      habilitado: new FormControl(true, [Validators.required]),
-      nombre: new FormControl('', [Validators.required]),
-      codigo: new FormControl('', [Validators.required]),
-      anio: new FormControl('', [Validators.required]),
-      marca: new FormControl('', [Validators.required]),
-      modelo: new FormControl('', [Validators.required]),
-      valor: new FormControl('', [Validators.required]),
-      rutProveedor: new FormControl('', [Validators.required])
+      id: new FormControl({
+        value: data.carPart ? data.carPart.id : null,
+        disabled: !data.edit
+      }),
+      idEmpresa: new FormControl({
+        value: data.idEmpresa ? data.carPart.idEmpresa : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      habilitado: new FormControl({
+        value: data.carPart ? data.carPart.habilitado : true,
+        disabled: !data.edit
+      }, [Validators.required]),
+      nombre: new FormControl({
+        value: data.carPart ? data.carPart.nombre : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      codigo: new FormControl({
+        value: data.carPart ? data.carPart.codigo : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      anio: new FormControl({
+        value: data.carPart ? data.carPart.anio : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      marca: new FormControl({
+        value: data.carPart ? data.carPart.marca : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      modelo: new FormControl({
+        value: data.carPart ? data.carPart.modelo : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      valor: new FormControl({
+        value: data.carPart ? data.carPart.valor : null,
+        disabled: !data.edit
+      }, [Validators.required]),
+      rutProveedor: new FormControl({
+        value: data.carPart ? data.carPart.proveedor.rut : null,
+        disabled: !data.edit
+      }, [Validators.required])
     });
     this.createCarPartsForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
   }
-
 
 
   onNoClick(): void {

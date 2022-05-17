@@ -46,12 +46,17 @@ export class CreateWorkOrderComponent implements OnInit {
           recargo: new FormControl('', [Validators.required])
         })
       ], [Validators.required]),
-      codigoRepuestos: new FormControl(''),
-      valorOt: new FormControl('')
+      valorOt: new FormControl(0)
 
 
     });
     this.createWorkOrderForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
+
+    //  agregar un listener al formulario
+    this.createWorkOrderForm.valueChanges.subscribe(() => {
+      this.calcularValorOt();
+    });
+
 
   }
 
@@ -113,8 +118,8 @@ export class CreateWorkOrderComponent implements OnInit {
     this.loadingCarParts = true;
     this.api.getAllCarParts().subscribe({
       next: data => {
-        console.warn(data.repuestoDtoList);
-        this.allCarParts = data.repuestoDtoList;
+        console.warn(data);
+        this.allCarParts = data;
 
       }, error: error => {
         console.log(error);
@@ -138,6 +143,7 @@ export class CreateWorkOrderComponent implements OnInit {
 
     detailForm.push(new FormGroup({
       descripcion: new FormControl(''),
+      codigoRepuestos: new FormControl(''),
       recargo: new FormControl('', [Validators.required])
     }));
   }
@@ -167,6 +173,20 @@ export class CreateWorkOrderComponent implements OnInit {
 
   }
 
+  selectRepuesto(index: number, code: any) {
+
+    // Buscar repuesto por codigo
+    const repuesto = this.allCarParts.find(repuesto => repuesto.codigo === code);
+    const valor = (repuesto.valor * 1.35);
+    // redondear valor en un multiplo de 10
+    const valorRounded = Math.round(valor / 10) * 10;
+
+    console.warn(repuesto);
+    this.detalleFormArray.at(index).get('recargo')!.setValue(valorRounded, {emitEvent: false});
+
+    this.calcularValorOt();
+  }
+
 
   getVehiclesByClient(rutCliente: number): void {
     console.log('clientId', rutCliente);
@@ -180,6 +200,19 @@ export class CreateWorkOrderComponent implements OnInit {
         console.error('err', err);
       }
     });
+  }
+
+  calcularValorOt(): void {
+    console.log('calcularValorOt');
+    let valorOt = 0;
+    for (let i = 0; i < this.detalleFormArray.length; i++) {
+      valorOt += Number(this.detalleFormArray.at(i).get('recargo')?.value);
+    }
+
+
+    this.createWorkOrderForm.get('valorOt')!.setValue(valorOt, {emitEvent: false});
+
+
   }
 
 

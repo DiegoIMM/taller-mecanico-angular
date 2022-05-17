@@ -30,7 +30,7 @@ export class CreateClientComponent implements OnInit {
         disabled: !data.edit
       }),
       idEmpresa: new FormControl({
-        value: data.idEmpresa ? data.client.idEmpresa : null,
+        value: data.client ? data.client.idEmpresa : null,
         disabled: !data.edit
       }, [Validators.required]),
 

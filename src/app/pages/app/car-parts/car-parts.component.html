@@ -58,7 +58,7 @@
     <div class="col s12 m4">
       <mat-selection-list #selectedVehicle [multiple]="false">
         <mat-list-option *ngFor="let carP of carParts; index as i" [selected]="carP && i == 0" [value]="carP">
-          {{carP.name}} {{carP.codigo}}
+          {{carP.nombre}}
         </mat-list-option>
       </mat-selection-list>
 
@@ -121,7 +121,7 @@
           <div
             mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.proveedor[0].email}} </div>
         </mat-list-item>
-    
+
       </mat-list>
 
 

@@ -1,8 +1,13 @@
-<h1 mat-dialog-title>Crear Repuesto</h1>
+<h1 mat-dialog-title>{{data.title}}</h1>
 <mat-dialog-content class="mat-typography">
 
 
   <form [formGroup]="createCarPartsForm" class="row">
+
+    <div class="col s12">
+      <h2>Datos básicos del repuesto</h2>
+    </div>
+
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Nombre</mat-label>
@@ -17,6 +22,18 @@
       <mat-error *ngIf="createCarPartsForm.controls['codigo'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input type="text" formControlName="valor" matInput placeholder="5990">
+      <mat-error *ngIf="createCarPartsForm.controls['valor'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <div class="col s12">
+      <h2>¿Para que vehículo?</h2>
+    </div>
+
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Marca</mat-label>
@@ -35,12 +52,11 @@
       <input type="text" formControlName="anio" matInput placeholder="2022">
       <mat-error *ngIf="createCarPartsForm.controls['anio'].errors?.['required']">Este campo es requerido</mat-error>
     </mat-form-field>
-    <mat-form-field class="col s12 m6" appearance="outline">
-      <mat-label>Valor</mat-label>
-      <input type="text" formControlName="valor" matInput placeholder="5990">
-      <mat-error *ngIf="createCarPartsForm.controls['valor'].errors?.['required']">Este campo es requerido
-      </mat-error>
-    </mat-form-field>
+
+    <div class="col s12">
+      <h2>Proveedor</h2>
+    </div>
+
 
     <mat-form-field class="col s10 m10" appearance="outline">
       <mat-label>Proveedor</mat-label>

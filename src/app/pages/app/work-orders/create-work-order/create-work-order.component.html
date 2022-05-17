@@ -53,8 +53,8 @@
 
     <div class="row" formArrayName="detalle">
       <h3 class="col s12">Detalle</h3>
-      <div [formGroupName]="i"
-           *ngFor="let detalle of detalleFormArray.controls; let i = index">
+      <div class="col s12" [formGroupName]="i"
+           *ngFor="let detalle of detalleFormArray?.controls; let i = index">
 
         <mat-form-field class="col s11 m4" appearance="outline">
           <mat-label>Descripción</mat-label>
@@ -63,10 +63,10 @@
           <!--          </mat-error>-->
         </mat-form-field>
         <mat-form-field class="col s11 m3" appearance="outline">
-          <mat-label>Repuesto</mat-label>
-          <mat-select formControlName="codigoRepuestos">
-            <mat-option *ngFor="let client of allCarParts" [value]="client.rut">
-              {{client.nombre}} {{client.apellido}}
+          <mat-label>Repuesto (opcional)</mat-label>
+          <mat-select (selectionChange)="selectRepuesto(i, $event.value)" formControlName="codigoRepuestos">
+            <mat-option *ngFor="let carPart of allCarParts" [value]="carPart.codigo">
+              {{carPart.nombre}} ({{carPart.valor}})
             </mat-option>
 
           </mat-select>
@@ -76,6 +76,7 @@
           <input type="text" formControlName="recargo" matInput placeholder="recargo">
           <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->
           <!--          </mat-error>-->
+          <mat-hint>Si se selecciona repuesto se sugiere un aumento de %35 (redondeado)</mat-hint>
         </mat-form-field>
         <div class="col s1 m1">
           <button mat-mini-fab color="warn" type="button" (click)="eliminarDireccion(i)">
@@ -87,7 +88,12 @@
       <button mat-raised-button color="primary" class="col s12" type="button" (click)="addDetail()">Añadir detalle
       </button>
     </div>
-
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Total</mat-label>
+      <input type="text" formControlName="valorOt" matInput>
+      <mat-error *ngIf="createWorkOrderForm.controls['valorOt'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
 
   </form>
 
@@ -103,6 +109,3 @@
 
   </button>
 </mat-dialog-actions>
-
-{{createWorkOrderForm.value | json}}
-{{createWorkOrderForm.valid | json}}
