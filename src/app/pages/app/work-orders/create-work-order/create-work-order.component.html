@@ -4,7 +4,7 @@
 
   <form [formGroup]="createWorkOrderForm" class="row">
 
-    <mat-form-field class="col s12 m6" appearance="outline">
+    <mat-form-field class="col s12 m12" appearance="outline">
       <mat-label>Numero de orden</mat-label>
       <input type="text" formControlName="numeroOrden" matInput placeholder="11231123">
       <mat-error *ngIf="createWorkOrderForm.controls['numeroOrden'].errors?.['required']">Este campo es requerido
@@ -19,13 +19,14 @@
     <!--      <mat-datepicker #picker></mat-datepicker>-->
     <!--    </mat-form-field>-->
 
-
-    <mat-form-field class="col s12 m6" appearance="outline">
+<!--
+      <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Fecha de ingreso</mat-label>
-      <input type="text" formControlName="fechaIngreso" matInput placeholder="18/05/2022">
+      <input type="text" class="datepicker" formControlName="fechaIngreso" matInput placeholder="18/05/2022">
       <mat-error *ngIf="createWorkOrderForm.controls['fechaIngreso'].errors?.['required']">Este campo es requerido
       </mat-error>
     </mat-form-field>
+  -->
 
     <mat-form-field class="col s12" appearance="outline">
       <mat-label>Cliente</mat-label>

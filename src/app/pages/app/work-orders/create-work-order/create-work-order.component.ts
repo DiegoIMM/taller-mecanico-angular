@@ -35,7 +35,7 @@ export class CreateWorkOrderComponent implements OnInit {
       idEmpresa: new FormControl(null, [Validators.required]),
       habilitado: new FormControl(true, [Validators.required]),
       numeroOrden: new FormControl('', [Validators.required]),
-      fechaIngreso: new FormControl(null, [Validators.required]),
+      //fechaIngreso: new FormControl(null, [Validators.required]),
       rutCliente: new FormControl('', [Validators.required]),
       patenteVehiculo: new FormControl('', [Validators.required]),
       //Detalle es un array de objetos
