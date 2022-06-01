@@ -93,9 +93,13 @@ export class VehiclesComponent implements OnInit {
       this.loadingVehicles = false;
       this.api.getVehiclesByPatente(this.patente).subscribe({
         next: (data: any) => {
-          this.vehicles = [data];
-          this.loadingVehicles = false;
-          console.log(data);
+          if (data != null) {
+            this.vehicles = [data];
+            this.loadingVehicles = false;
+            console.log(data);
+          } else {
+            throw new Error('No se encontró ningún vehículo con esa patente');
+          }
         }, error: (error: any) => {
           this.loadingVehicles = false;
           console.error(error);

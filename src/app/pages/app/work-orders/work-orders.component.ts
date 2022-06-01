@@ -5,17 +5,27 @@ import {ApiService} from '../../../services/api.service';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-work-orders',
   templateUrl: './work-orders.component.html',
-  styleUrls: ['./work-orders.component.scss']
+  styleUrls: ['./work-orders.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class WorkOrdersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['numeroOrden', 'patenteVehiculo', 'rutCliente', 'valorOt', 'fechaIngreso', 'detalle'];
+  displayedColumns: string[] = ['numeroOrden', 'patenteVehiculo', 'rutCliente', 'valorOt', 'fechaIngreso'];
+  expandedElement: any | null;
+
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 
@@ -61,6 +71,7 @@ export class WorkOrdersComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
+        this.getAllWorkOrders();
       }
     });
   }

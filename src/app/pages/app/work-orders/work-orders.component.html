@@ -14,7 +14,8 @@
 
 
 <div *ngIf="!loadingTable">
-  <div *ngIf="dataSource!.data.length === 0">  <app-no-data></app-no-data>
+  <div *ngIf="dataSource!.data.length === 0">
+    <app-no-data></app-no-data>
   </div>
   <div *ngIf="dataSource!.data.length > 0">
 
@@ -24,47 +25,175 @@
     </mat-form-field>
 
     <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource!" matSort>
+      <table mat-table [dataSource]="dataSource!" matSort multiTemplateDataRows>
 
         <ng-container matColumnDef="numeroOrden">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="numeroOrden"> numeroOrden</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="numeroOrden"> N° Orden</th>
           <td mat-cell *matCellDef="let row"> {{row.numeroOrden}}</td>
         </ng-container>
 
         <ng-container matColumnDef="patenteVehiculo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="patenteVehiculo"> patenteVehiculo</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="patenteVehiculo"> Patente vehículo</th>
           <td mat-cell *matCellDef="let row"> {{row.patenteVehiculo}}</td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="rutCliente">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="rutCliente"> rutCliente</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="rutCliente"> Cliente</th>
           <td mat-cell *matCellDef="let row"> {{row.rutCliente}} </td>
         </ng-container>
 
         <!-- Fruit Column -->
         <ng-container matColumnDef="valorOt">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="valorOt"> valorOt</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="valorOt"> Total</th>
           <td mat-cell *matCellDef="let row"> {{row.valorOt}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaIngreso">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="fechaIngreso"> fechaIngreso</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="fechaIngreso"> Ingreso</th>
           <td mat-cell *matCellDef="let row"> {{row.fechaIngreso}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="detalle">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="detalle"> detalle</th>
-          <td mat-cell *matCellDef="let row"> {{row.detalle}} </td>
+        <!--        <ng-container matColumnDef="detalle">-->
+        <!--          <th mat-header-cell *matHeaderCellDef mat-sort-header="detalle"> detalle</th>-->
+        <!--          <td mat-cell *matCellDef="let row"> {{row.detalle}} </td>-->
+        <!--        </ng-container>-->
+
+
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+          <br/>
+          <br/>
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="example-element-detail"
+                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <div class="row">
+                <div class="col s12">
+                  <div class="col s12">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div class="col s5">Status: En curso</div>
+                    <div class="col s5">Fecha de
+                      finalización: {{element.fechaFinalizacion ? element.fechaFinalizacion : 'Aún no finaliza' }}</div>
+                    <div class="col s2">
+                      <div class="valign-wrapper">
+
+                        <div class="col s4">
+                          <button mat-icon-button>
+                            <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
+                          </button>
+                        </div>
+                        <div class="col s4">
+                          <button mat-icon-button>
+                            <mat-icon class="red-text text-darken-2">delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="col s12 m6">
+                    <br/>
+                    <br/>
+                    <mat-list>
+
+                      <div mat-subheader>Datos del vehículo</div>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>calendar_month</mat-icon>
+                        <div mat-line>Año</div>
+                        <div mat-line>{{element.vehiculo.anio}}</div>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>palette</mat-icon>
+                        <div mat-line>Color</div>
+                        <div mat-line>{{element.vehiculo.color}}</div>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>route</mat-icon>
+                        <div mat-line>Kilometraje</div>
+                        <div mat-line>{{element.vehiculo.kilometraje}}</div>
+                      </mat-list-item>
+
+                    </mat-list>
+
+                  </div>
+                  <div class="col s12 m6">
+                    <br/>
+                    <br/>
+                    <mat-list>
+
+
+                      <div mat-subheader>Dueño</div>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>face</mat-icon>
+                        <div mat-line>Nombre</div>
+                        <div
+                          mat-line> {{element.cliente.nombre}}
+                          {{element.vehiculo.apellido}}</div>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>home</mat-icon>
+                        <div mat-line>Dirección</div>
+                        <div
+                          mat-line> {{element.cliente.direccion}} </div>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>phone</mat-icon>
+                        <div mat-line>Teléfono</div>
+                        <div
+                          mat-line> {{element.cliente.telefono}} </div>
+                      </mat-list-item>
+
+                    </mat-list>
+
+                  </div>
+                  <div class="col s12 center">
+                    <mat-divider></mat-divider>
+                  </div>
+                  <div class="col s12" *ngFor="let detail of element.detalle; index as i">
+                    <div class="col s12 m4">
+                      <h3 style="font-weight: bolder" *ngIf="i === 0">Descripción</h3>
+                      <p>{{detail.descripcion ? detail.descripcion : 'Sin descripción'}}</p>
+                    </div>
+
+                    <div class="col s12 m4">
+                      <h3 style="font-weight: bolder" *ngIf="i === 0">Recargo</h3>
+                      <p>{{detail.recargo ? detail.recargo : 'Sin recargo'}}</p>
+                    </div>
+                    <div class="col s12 m4">
+                      <h3 style="font-weight: bolder" *ngIf="i === 0">Repuesto</h3>
+                      <p>{{detail.repuesto ? detail.repuesto : 'Sin repuesto'}}</p>
+                    </div>
+
+                  </div>
+                  <div class="col s12 center">
+
+                    <p>Total OT: {{element.valorOt}}</p>
+                  </div>
+                </div>
+
+              </div>
+
+
+            </div>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === row"
+            (click)="expandedElement = expandedElement === row ? null : row"></tr>
 
         <!-- Row shown when there is no matching data. -->
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
+
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
