@@ -43,6 +43,7 @@ export class CreateWorkOrderComponent implements OnInit {
         this.fb.group({
           descripcion: new FormControl(''),
           codigoRepuestos: new FormControl(''),
+          repuesto_id: new FormControl(''),
           recargo: new FormControl('', [Validators.required])
         })
       ], [Validators.required]),
@@ -144,6 +145,7 @@ export class CreateWorkOrderComponent implements OnInit {
     detailForm.push(new FormGroup({
       descripcion: new FormControl(''),
       codigoRepuestos: new FormControl(''),
+      repuesto_id: new FormControl(''),
       recargo: new FormControl('', [Validators.required])
     }));
   }
@@ -173,16 +175,26 @@ export class CreateWorkOrderComponent implements OnInit {
 
   }
 
-  selectRepuesto(index: number, code: any) {
-
+  selectRepuesto(index: number, code: any, event:any) {
+    console.log("selectRepuesto");
+    console.log(event);
+    console.log(event.source.value);
+    
+    console.log(code);
+    console.log(code.id);
+    console.log(code.codigo);
+    //index = code.id;
     // Buscar repuesto por codigo
-    const repuesto = this.allCarParts.find(repuesto => repuesto.codigo === code);
+    const repuesto = this.allCarParts.find(repuesto => repuesto.codigo === code.codigo);
+    const repuesto_id = this.allCarParts.find(repuesto => repuesto.id === code.id);
     const valor = (repuesto.valor * 1.35);
     // redondear valor en un multiplo de 10
     const valorRounded = Math.round(valor / 10) * 10;
 
     console.warn(repuesto);
     this.detalleFormArray.at(index).get('recargo')!.setValue(valorRounded, {emitEvent: false});
+
+    this.detalleFormArray.at(index).get('repuesto_id')!.setValue(code.id,{emitEvent: false});
 
     this.calcularValorOt();
   }
