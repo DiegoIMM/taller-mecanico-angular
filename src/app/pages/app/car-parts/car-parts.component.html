@@ -84,11 +84,22 @@
       </div>
       <div class="col s12">
 
-        <h2>Para {{selectedVehicle.selectedOptions.selected[0]?.value.marca | uppercase}} {{selectedVehicle.selectedOptions.selected[0]?.value.modelo | uppercase}}</h2>
+        <h2>
+          Para {{selectedVehicle.selectedOptions.selected[0]?.value.marca | uppercase}} {{selectedVehicle.selectedOptions.selected[0]?.value.modelo | uppercase}}</h2>
       </div>
 
       <mat-list>
         <div mat-subheader>Datos del repuesto</div>
+        <mat-list-item>
+          <mat-icon mat-list-icon>qr_code_scanner</mat-icon>
+          <div mat-line>Código</div>
+          <div mat-line>{{selectedVehicle.selectedOptions.selected[0]?.value.codigo}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon mat-list-icon>attach_money</mat-icon>
+          <div mat-line>Valor</div>
+          <div mat-line>{{selectedVehicle.selectedOptions.selected[0]?.value.valor}}</div>
+        </mat-list-item>
         <mat-list-item>
           <mat-icon mat-list-icon>calendar_month</mat-icon>
           <div mat-line>Año</div>
@@ -107,7 +118,8 @@
           <mat-icon mat-list-icon>home</mat-icon>
           <div mat-line>Dirección</div>
           <div
-            mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.proveedor[0].direccion}}, {{selectedVehicle.selectedOptions.selected[0]?.value.proveedor[0].ciudad}} </div>
+            mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.proveedor[0].direccion}}
+            , {{selectedVehicle.selectedOptions.selected[0]?.value.proveedor[0].ciudad}} </div>
         </mat-list-item>
         <mat-list-item>
           <mat-icon mat-list-icon>phone</mat-icon>

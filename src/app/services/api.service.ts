@@ -227,6 +227,11 @@ export class ApiService {
       .pipe(catchError(this.handleError<any>('add Repuesto')));
   }
 
+  editCarPart(carPart: any): Observable<any> {
+    return this.http.put<any>(`${apiUrl}repuesto/update`, carPart, httpOptions)
+      .pipe(catchError(this.handleError<any>('edit Repuesto')));
+  }
+
   getAllCarParts(): Observable<any> {
     return this.http
       .get(apiUrl + 'repuesto/empresa/' + this.getIdEmpresa(), httpOptions)

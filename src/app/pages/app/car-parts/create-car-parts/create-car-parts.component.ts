@@ -67,12 +67,11 @@ export class CreateCarPartsComponent implements OnInit {
         disabled: !data.edit
       }, [Validators.required]),
       rutProveedor: new FormControl({
-        value: data.carPart ? data.carPart.proveedor.rut : null,
+        value: data.carPart ? data.carPart?.proveedor[0]?.rut : null,
         disabled: !data.edit
       }, [Validators.required])
     });
     this.createCarPartsForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
-
   }
 
 
@@ -117,7 +116,7 @@ export class CreateCarPartsComponent implements OnInit {
     // this.loadingButton = true;
     console.log(this.createCarPartsForm.value);
 
-    this.api.addCarPart(this.createCarPartsForm.value).subscribe({
+    this.api.editCarPart(this.createCarPartsForm.value).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {

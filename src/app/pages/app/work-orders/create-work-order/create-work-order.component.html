@@ -67,7 +67,7 @@
           <mat-label>Repuesto (opcional)</mat-label>
           <mat-select (selectionChange)="selectRepuesto(i, $event.value, $event)" formControlName="codigoRepuestos">
             <mat-option *ngFor="let carPart of allCarParts; index as i;" [value]="carPart">
-              {{carPart.codigo}} {{carPart.id}} {{carPart.nombre}} ({{carPart.valor}})
+              {{carPart.codigo}} - {{carPart.nombre}} (${{carPart.valor}})
             </mat-option>
 
           </mat-select>

@@ -49,7 +49,7 @@ export class CreateClientComponent implements OnInit {
       }, [Validators.required]),
       rut: new FormControl({
         value: data.client ? data.client.rut : null,
-        disabled: !data.edit
+        disabled: data.client
       }, [Validators.required]),
       direccion: new FormControl({
         value: data.client ? data.client.direccion : null,

@@ -47,7 +47,7 @@ export class CreateProviderComponent implements OnInit {
       }, [Validators.required]),
       rut: new FormControl({
         value: data.provider ? data.provider.rut : null,
-        disabled: !data.edit
+        disabled: data.provider
       }, [Validators.required]),
 
 

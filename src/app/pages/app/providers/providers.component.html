@@ -19,6 +19,7 @@
   <div *ngIf="dataSource!.data.length > 0">
 
     <mat-form-field appearance="standard">
+<!--      TODO: Limpiar los datos al buscar nuevamente-->
       <mat-label>Filtrar</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Bosch" #input>
     </mat-form-field>

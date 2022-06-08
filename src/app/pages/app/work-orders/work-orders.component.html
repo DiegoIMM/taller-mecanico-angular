@@ -74,7 +74,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <div class="col s5">Status: En curso</div>
+                    <div class="col s5">Status: {{element.estado}}</div>
                     <div class="col s5">Fecha de
                       finalización: {{element.fechaFinalizacion ? element.fechaFinalizacion : 'Aún no finaliza' }}</div>
                     <div class="col s2">
@@ -165,7 +165,7 @@
                     </div>
                     <div class="col s12 m4">
                       <h3 style="font-weight: bolder" *ngIf="i === 0">Repuesto</h3>
-                      <p>{{detail.repuesto ? detail.repuesto : 'Sin repuesto'}}</p>
+                      <p>{{detail.repuesto ? (detail.repuesto.nombre) : 'Sin repuesto'}}</p>
                     </div>
 
                   </div>

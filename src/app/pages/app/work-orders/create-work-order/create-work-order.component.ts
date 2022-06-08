@@ -105,7 +105,15 @@ export class CreateWorkOrderComponent implements OnInit {
     this.loadingClients = true;
     this.api.getAllClients().subscribe({
       next: data => {
-        this.allClients = data;
+        var enabledClients: any[] = [];
+
+        data.forEach((client: any) => {
+
+          if (client.habilitado) {
+            enabledClients.push(client);
+          }
+        });
+        this.allClients = enabledClients;
       }, error: error => {
         console.log(error);
       }, complete: () => {
@@ -119,8 +127,11 @@ export class CreateWorkOrderComponent implements OnInit {
     this.loadingCarParts = true;
     this.api.getAllCarParts().subscribe({
       next: data => {
+        let activeCarParts = data.filter((provider: any) => provider.habilitado);
+
+        this.allCarParts = activeCarParts;
+        this.loadingCarParts = false;
         console.warn(data);
-        this.allCarParts = data;
 
       }, error: error => {
         console.log(error);
@@ -179,7 +190,7 @@ export class CreateWorkOrderComponent implements OnInit {
     console.log("selectRepuesto");
     console.log(event);
     console.log(event.source.value);
-    
+
     console.log(code);
     console.log(code.id);
     console.log(code.codigo);
@@ -204,9 +215,17 @@ export class CreateWorkOrderComponent implements OnInit {
     console.log('clientId', rutCliente);
     this.api.getVehiclesByClient(rutCliente.toString()).subscribe({
       next: (res: any) => {
+
+
+
+
         console.log('res', res);
         if (res) {
-          this.allVehicles = res;
+          let activeVehicles = res.filter((vehicle: any) => vehicle.habilitado);
+
+          this.allVehicles = activeVehicles;
+          this.loadingVehicles = false;
+
         }
       }, error: (err: any) => {
         console.error('err', err);
