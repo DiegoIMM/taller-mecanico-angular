@@ -53,7 +53,11 @@
 
 
 <div *ngIf="!loadingCarParts">
-
+  <div *ngIf="carParts === null" class="row">
+    <div class="col s12 m12 l12">
+      <p>Sin datos</p>
+    </div>
+  </div>
   <div class="row">
     <div class="col s12 m4">
       <mat-selection-list #selectedVehicle [multiple]="false">

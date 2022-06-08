@@ -24,7 +24,7 @@ export class VehiclesComponent implements OnInit {
   selectedClient: any = null;
   patente: string = '';
 
-  vehicles: any[] = [];
+  vehicles: any[] | null = null;
 
   constructor(private dialog: MatDialog, private api: ApiService) {
 
@@ -46,8 +46,6 @@ export class VehiclesComponent implements OnInit {
 
   changePatente() {
     this.selectedClient = null;
-    console.log(this.patente);
-
     // this.loadingVehicles = true;
     // this.api.getVehiclesByPatente(this.patente).subscribe(
     //   (data: any) => {
@@ -79,6 +77,7 @@ export class VehiclesComponent implements OnInit {
           this.loadingVehicles = false;
           console.log(data);
         }, error: (error: any) => {
+          this.vehicles = null;
           this.loadingVehicles = false;
           console.error(error);
         }, complete: () => {
@@ -94,13 +93,28 @@ export class VehiclesComponent implements OnInit {
       this.api.getVehiclesByPatente(this.patente).subscribe({
         next: (data: any) => {
           if (data != null) {
-            this.vehicles = [data];
+            let activeVehicles = [data].filter((vehicle: any) => vehicle.habilitado);
+
+
+            if (activeVehicles.length > 0) {
+              this.vehicles = activeVehicles;
+
+            } else {
+              this.vehicles = null;
+
+            }
             this.loadingVehicles = false;
+
             console.log(data);
+
+
           } else {
+            this.vehicles = null;
             throw new Error('No se encontró ningún vehículo con esa patente');
           }
         }, error: (error: any) => {
+          this.vehicles = null;
+
           this.loadingVehicles = false;
           console.error(error);
         }

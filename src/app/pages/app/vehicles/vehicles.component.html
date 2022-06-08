@@ -52,8 +52,9 @@
 
 <div *ngIf="!loadingVehicles">
 
-  <div *ngIf="vehicles?.length === 0 && (selectedClient != null || patente != '')" class="row">
+  <div *ngIf="vehicles === null" class="row">
     <div class="col s12 m12 l12">
+      <p>Sin datos</p>
     </div>
   </div>
 

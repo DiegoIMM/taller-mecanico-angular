@@ -22,7 +22,7 @@ export class CarPartsComponent implements OnInit {
   selectedProvider: any = null;
   codigo: string = '';
 
-  carParts: any[] = [];
+  carParts: any[] | null = null;
 
 
   constructor(private dialog: MatDialog, private api: ApiService) {
@@ -75,9 +75,11 @@ export class CarPartsComponent implements OnInit {
           this.loadingCarParts = false;
           console.log(data);
         }, error: (error: any) => {
+          this.carParts = null;
           this.loadingCarParts = false;
           console.error(error);
         }, complete: () => {
+
           this.loadingCarParts = false;
 
         }
@@ -89,10 +91,23 @@ export class CarPartsComponent implements OnInit {
       this.loadingCarParts = false;
       this.api.getCarPartByCode(this.codigo).subscribe({
         next: (data: any) => {
-          this.carParts = [data];
+
+          let activecarParts = [data].filter((vehicle: any) => vehicle.habilitado);
+
+
+          if (activecarParts.length > 0) {
+            this.carParts = activecarParts;
+
+          } else {
+            this.carParts = null;
+
+          }
+          // this.carParts = [data];
           this.loadingCarParts = false;
           console.log(data);
         }, error: (error: any) => {
+          this.carParts = null;
+
           this.loadingCarParts = false;
           console.error(error);
         }
