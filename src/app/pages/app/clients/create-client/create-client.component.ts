@@ -97,7 +97,7 @@ export class CreateClientComponent implements OnInit {
     // this.loadingButton = true;
     console.log(this.createClientForm.value);
 
-    this.api.addClient(this.createClientForm.value).subscribe({
+    this.api.addClient(this.createClientForm.getRawValue()).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {
@@ -117,7 +117,7 @@ export class CreateClientComponent implements OnInit {
     // this.loadingButton = true;
     console.log(this.createClientForm.value);
 
-    this.api.editClient(this.createClientForm.value).subscribe({
+    this.api.editClient(this.createClientForm.getRawValue()).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {
@@ -132,7 +132,6 @@ export class CreateClientComponent implements OnInit {
 
 
   }
-
 
 
 }

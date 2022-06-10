@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {CreateWorkOrderComponent} from './create-work-order/create-work-order.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from '../../../services/api.service';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -15,9 +15,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
       state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class WorkOrdersComponent implements OnInit {
 
@@ -67,7 +67,12 @@ export class WorkOrdersComponent implements OnInit {
 
   openCreateWorkOrder(): void {
     this.dialog.open(CreateWorkOrderComponent, {
-      width: '1290px'
+      width: '1290px',
+      data: {
+        title: 'Crear Orden de trabajo',
+        work_order: null,
+        edit: true
+      }
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
@@ -75,6 +80,24 @@ export class WorkOrdersComponent implements OnInit {
       }
     });
   }
+
+  openEditWorkOrder(work_order: any): void {
+    this.dialog.open(CreateWorkOrderComponent, {
+      width: '1290px',
+      data: {
+        title: 'Editar Orden de trabajo',
+        work_order: work_order,
+        edit: true
+      }
+
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllWorkOrders();
+      }
+    });
+  }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

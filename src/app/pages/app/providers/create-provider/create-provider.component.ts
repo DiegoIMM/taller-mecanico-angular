@@ -92,7 +92,7 @@ export class CreateProviderComponent implements OnInit {
     // this.loadingButton = true;
     console.log(this.createProviderForm.value);
 
-    this.api.addProviders(this.createProviderForm.value).subscribe({
+    this.api.addProviders(this.createProviderForm.getRawValue()).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {
@@ -109,7 +109,7 @@ export class CreateProviderComponent implements OnInit {
     // this.loadingButton = true;
     console.warn(this.createProviderForm.value);
 
-    this.api.editProvider(this.createProviderForm.value).subscribe({
+    this.api.editProvider(this.createProviderForm.getRawValue()).subscribe({
       next: (res: any) => {
         console.log('res', res);
         if (res) {

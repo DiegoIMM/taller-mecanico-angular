@@ -76,20 +76,21 @@
                     <br/>
                     <div class="col s5">Status: {{element.estado}}</div>
                     <div class="col s5">Fecha de
-                      finalización: {{element.fechaFinalizacion ? element.fechaFinalizacion : 'Aún no finaliza' }}</div>
+                      finalización: {{element.fechaCerrado ? element.fechaCerrado : 'Aún no finaliza' }}</div>
                     <div class="col s2">
                       <div class="valign-wrapper">
 
                         <div class="col s4">
-                          <button mat-icon-button>
+                          <button *ngIf="element.estado === 'ABIERTAS'" mat-icon-button
+                                  (click)="openEditWorkOrder(element)">
                             <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
                           </button>
                         </div>
-                        <div class="col s4">
-                          <button mat-icon-button>
-                            <mat-icon class="red-text text-darken-2">delete</mat-icon>
-                          </button>
-                        </div>
+                        <!--                        <div class="col s4">-->
+                        <!--                          <button mat-icon-button>-->
+                        <!--                            <mat-icon class="red-text text-darken-2">delete</mat-icon>-->
+                        <!--                          </button>-->
+                        <!--                        </div>-->
                       </div>
                     </div>
 

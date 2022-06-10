@@ -295,6 +295,11 @@ export class ApiService {
       .pipe(catchError(this.handleError<any>('add orden de trabajo')));
   }
 
+  editWorkOrder(workOrder: any): Observable<any> {
+    return this.http.put<any>(`${apiUrl}ordenTrabajo/update`, workOrder, httpOptions)
+      .pipe(catchError(this.handleError<any>('editar orden de trabajo')));
+  }
+
   getAllWorkOrders(): Observable<any> {
     return this.http
       .get(apiUrl + 'ordenTrabajo/empresa/' + this.getIdEmpresa(), httpOptions)

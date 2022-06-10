@@ -1,14 +1,26 @@
-<h1 mat-dialog-title>Crear Orden de trabajo</h1>
+<h1 mat-dialog-title>{{data.title}}</h1>
 <mat-dialog-content class="mat-typography">
 
 
   <form [formGroup]="createWorkOrderForm" class="row">
 
-    <mat-form-field class="col s12 m12" appearance="outline">
+    <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Numero de orden</mat-label>
       <input type="text" formControlName="numeroOrden" matInput placeholder="11231123">
       <mat-error *ngIf="createWorkOrderForm.controls['numeroOrden'].errors?.['required']">Este campo es requerido
       </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col s12 m6" appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="estado">
+        <mat-option value="ABIERTAS">
+          Abierta
+        </mat-option>
+        <mat-option value="CERRADO">
+          Cerrada
+        </mat-option>
+
+      </mat-select>
     </mat-form-field>
 
     <!--    <mat-form-field class="col s12 m6" appearance="outline">-->
@@ -19,14 +31,14 @@
     <!--      <mat-datepicker #picker></mat-datepicker>-->
     <!--    </mat-form-field>-->
 
-<!--
-      <mat-form-field class="col s12 m6" appearance="outline">
-      <mat-label>Fecha de ingreso</mat-label>
-      <input type="text" class="datepicker" formControlName="fechaIngreso" matInput placeholder="18/05/2022">
-      <mat-error *ngIf="createWorkOrderForm.controls['fechaIngreso'].errors?.['required']">Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-  -->
+    <!--
+          <mat-form-field class="col s12 m6" appearance="outline">
+          <mat-label>Fecha de ingreso</mat-label>
+          <input type="text" class="datepicker" formControlName="fechaIngreso" matInput placeholder="18/05/2022">
+          <mat-error *ngIf="createWorkOrderForm.controls['fechaIngreso'].errors?.['required']">Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      -->
 
     <mat-form-field class="col s12" appearance="outline">
       <mat-label>Cliente</mat-label>
@@ -65,8 +77,8 @@
         </mat-form-field>
         <mat-form-field class="col s11 m3" appearance="outline">
           <mat-label>Repuesto (opcional)</mat-label>
-          <mat-select (selectionChange)="selectRepuesto(i, $event.value, $event)" formControlName="codigoRepuestos">
-            <mat-option *ngFor="let carPart of allCarParts; index as i;" [value]="carPart">
+          <mat-select (selectionChange)="selectRepuesto(i, $event.value)" formControlName="codigoRepuestos">
+            <mat-option *ngFor="let carPart of allCarParts; index as i;" [value]="carPart.codigo">
               {{carPart.codigo}} - {{carPart.nombre}} (${{carPart.valor}})
             </mat-option>
 
@@ -101,7 +113,8 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
-  <button mat-button cdkFocusInitial [disabled]="!createWorkOrderForm.valid || loadingButton" (click)="saveWorkOrder()">
+  <button *ngIf="data.title === 'Crear Orden de trabajo'" mat-button cdkFocusInitial
+          [disabled]="!createWorkOrderForm.valid || loadingButton" (click)="saveWorkOrder()">
     Crear
     <mat-icon *ngIf="loadingButton">
       <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
@@ -109,4 +122,16 @@
     <mat-icon *ngIf="!loadingButton">send</mat-icon>
 
   </button>
+
+  <button *ngIf="data.title === 'Editar Orden de trabajo'" mat-button cdkFocusInitial
+          [disabled]="!createWorkOrderForm.valid || loadingButton" (click)="editWorkOrder()">
+    Editar
+    <mat-icon *ngIf="loadingButton">
+      <mat-spinner diameter="20" mode="indeterminate"></mat-spinner>
+    </mat-icon>
+    <mat-icon *ngIf="!loadingButton">edit</mat-icon>
+
+  </button>
+
+  {{createWorkOrderForm.getRawValue() | json}}
 </mat-dialog-actions>
