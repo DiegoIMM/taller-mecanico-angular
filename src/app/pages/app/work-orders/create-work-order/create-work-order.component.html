@@ -11,7 +11,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="col s12 m6" appearance="outline">
-      <mat-label>Status</mat-label>
+      <mat-label>Estado</mat-label>
       <mat-select formControlName="estado">
         <mat-option value="ABIERTAS">
           Abierta
@@ -83,13 +83,18 @@
             </mat-option>
 
           </mat-select>
+
+          <mat-icon matTooltip="Si selecciona repuesto se sugiere un aumento de %35 (redondeado)">info_outline</mat-icon>
+
+
+
         </mat-form-field>
         <mat-form-field class="col s11 m4" appearance="outline">
           <mat-label>Recargo</mat-label>
           <input type="text" formControlName="recargo" matInput placeholder="recargo">
           <!--          <mat-error *ngIf="createWorkOrderForm.controls['detalle.descripcion'].value[i].errors?.['required']">Este campo es requerido-->
           <!--          </mat-error>-->
-          <mat-hint>Si se selecciona repuesto se sugiere un aumento de %35 (redondeado)</mat-hint>
+          <!--<mat-hint>Si se selecciona repuesto se sugiere un aumento de %35 (redondeado)</mat-hint>-->
         </mat-form-field>
         <div class="col s1 m1">
           <button mat-mini-fab color="warn" type="button" (click)="eliminarDireccion(i)">
@@ -132,6 +137,7 @@
     <mat-icon *ngIf="!loadingButton">edit</mat-icon>
 
   </button>
-
+<!--
   {{createWorkOrderForm.getRawValue() | json}}
+  -->
 </mat-dialog-actions>

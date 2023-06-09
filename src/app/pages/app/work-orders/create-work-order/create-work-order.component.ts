@@ -158,14 +158,37 @@ export class CreateWorkOrderComponent implements OnInit {
   }
 
   getAllCarParts(): void {
+    console.log("getAllCarParts");
     this.loadingCarParts = true;
     this.api.getAllCarParts().subscribe({
       next: (data) => {
+        console.log("data all parts");
+        console.log(data);
+        var dataIni = [{
+          id: 0,
+          habilitado: true,
+          nombre: "Seleccione Repuesto",
+          codigo: "0",
+          marca: "Seleccione Repuesto",
+
+          anio: "0000",
+          detalle: null,
+          empresa: null,
+
+          modelo: "Seleccione Repuesto",
+          proveedor: null,
+          rutProveedor: "",
+          valor: 0
+        }];
+
+
         let activeCarParts = data.filter(
           (provider: any) => provider.habilitado
         );
 
-        this.allCarParts = activeCarParts;
+
+        console.log(activeCarParts.concat(dataIni));
+        this.allCarParts = dataIni.concat(activeCarParts);
         this.loadingCarParts = false;
         console.warn(data);
       },

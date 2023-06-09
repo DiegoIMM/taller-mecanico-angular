@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ApiService} from '../../../../services/api.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AuthService} from '../../../../services/auth.service';
 import * as Regiones from '../../../../../assets/Regiones.json';
 
 @Component({
-  selector: 'app-create-client',
+  selector: 'app-create-provider',
   templateUrl: './create-client.component.html',
   styleUrls: ['./create-client.component.scss']
 })
@@ -23,7 +23,7 @@ export class CreateClientComponent implements OnInit {
               public dialogRef: MatDialogRef<CreateClientComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.warn(data);
+
     this.createClientForm = this.fb.group({
       id: new FormControl({
         value: data.client ? data.client.id : null,
@@ -33,12 +33,10 @@ export class CreateClientComponent implements OnInit {
         value: data.client ? data.client.idEmpresa : null,
         disabled: !data.edit
       }, [Validators.required]),
-
       habilitado: new FormControl({
         value: data.client ? data.client.habilitado : true,
         disabled: !data.edit
       }, [Validators.required]),
-
       nombre: new FormControl({
         value: data.client ? data.client.nombre : null,
         disabled: !data.edit
@@ -49,8 +47,10 @@ export class CreateClientComponent implements OnInit {
       }, [Validators.required]),
       rut: new FormControl({
         value: data.client ? data.client.rut : null,
-        disabled: data.client
+        disabled: data.provider
       }, [Validators.required]),
+
+
       direccion: new FormControl({
         value: data.client ? data.client.direccion : null,
         disabled: !data.edit
@@ -66,7 +66,11 @@ export class CreateClientComponent implements OnInit {
       telefono: new FormControl({
         value: data.client ? data.client.telefono : null,
         disabled: !data.edit
-      }, [Validators.required])
+      }, [Validators.required, Validators.pattern('^([+]?[\\s0-9]+)?(\\d{3}|[(]?[0-9]+[)])?([-]?[\\s]?[0-9])+$')]),
+      email: new FormControl({
+        value: data.client ? data.client.email : null,
+        disabled: !data.edit
+      }, [Validators.required, Validators.email])
     });
     this.createClientForm.get('idEmpresa')!.setValue(this.auth.getIdEmpresa(), {emitEvent: false});
 
@@ -84,15 +88,6 @@ export class CreateClientComponent implements OnInit {
     }
   }
 
-  updateCommunes() {
-
-    this.createClientForm.updateValueAndValidity();
-    this.createClientForm.controls['ciudad'].reset();
-    this.communes = this.regiones.regions.find((region: any) => region.name == this.createClientForm.controls['comuna'].value)!.communes;
-    this.createClientForm.updateValueAndValidity();
-
-  }
-
   async saveClient(): Promise<void> {
     // this.loadingButton = true;
     console.log(this.createClientForm.value);
@@ -108,14 +103,11 @@ export class CreateClientComponent implements OnInit {
       }
     });
 
-    // const question: Question = Question.fromJson(this.createQuestionForm.getRawValue());
-
-
   }
 
   async editClient(): Promise<void> {
     // this.loadingButton = true;
-    console.log(this.createClientForm.value);
+    console.warn(this.createClientForm.value);
 
     this.api.editClient(this.createClientForm.getRawValue()).subscribe({
       next: (res: any) => {
@@ -128,8 +120,13 @@ export class CreateClientComponent implements OnInit {
       }
     });
 
-    // const question: Question = Question.fromJson(this.createQuestionForm.getRawValue());
+  }
 
+  updateCommunes() {
+    this.createClientForm.updateValueAndValidity();
+    this.createClientForm.controls['ciudad'].reset();
+    this.communes = this.regiones.regions.find((region: any) => region.name == this.createClientForm.controls['comuna'].value)!.communes;
+    this.createClientForm.updateValueAndValidity();
 
   }
 

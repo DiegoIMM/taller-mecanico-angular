@@ -32,6 +32,16 @@
           <td mat-cell *matCellDef="let row"> {{row.numeroOrden}}</td>
         </ng-container>
 
+        <ng-container matColumnDef="marca">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="marca"> Marca</th>
+          <td mat-cell *matCellDef="let row"> {{row.vehiculo.marca}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="modelo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="modelo"> Modelo</th>
+          <td mat-cell *matCellDef="let row"> {{row.vehiculo.modelo}}</td>
+        </ng-container>
+
         <ng-container matColumnDef="patenteVehiculo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="patenteVehiculo"> Patente vehículo</th>
           <td mat-cell *matCellDef="let row"> {{row.patenteVehiculo}}</td>
@@ -46,13 +56,20 @@
         <!-- Fruit Column -->
         <ng-container matColumnDef="valorOt">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="valorOt"> Total</th>
-          <td mat-cell *matCellDef="let row"> {{row.valorOt}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.valorOt|currency:'CLP'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaIngreso">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="fechaIngreso"> Ingreso</th>
           <td mat-cell *matCellDef="let row"> {{row.fechaIngreso}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="estado"> Estado</th>
+          <td mat-cell *matCellDef="let row"> {{row.estado}} </td>
+        </ng-container>
+
+
 
         <!--        <ng-container matColumnDef="detalle">-->
         <!--          <th mat-header-cell *matHeaderCellDef mat-sort-header="detalle"> detalle</th>-->
@@ -74,7 +91,7 @@
                     <br/>
                     <br/>
                     <br/>
-                    <div class="col s5">Status: {{element.estado}}</div>
+                    <div class="col s5">Estado: {{element.estado}}</div>
                     <div class="col s5">Fecha de
                       finalización: {{element.fechaCerrado ? element.fechaCerrado : 'Aún no finaliza' }}</div>
                     <div class="col s2">
@@ -162,7 +179,7 @@
 
                     <div class="col s12 m4">
                       <h3 style="font-weight: bolder" *ngIf="i === 0">Recargo</h3>
-                      <p>{{detail.recargo ? detail.recargo : 'Sin recargo'}}</p>
+                      <p>{{detail.recargo ? (detail.recargo|currency:'CLP') : 'Sin recargo'}}</p>
                     </div>
                     <div class="col s12 m4">
                       <h3 style="font-weight: bolder" *ngIf="i === 0">Repuesto</h3>
@@ -172,7 +189,7 @@
                   </div>
                   <div class="col s12 center">
 
-                    <p>Total OT: {{element.valorOt}}</p>
+                    <p>Total OT: {{element.valorOt|currency:'CLP'}}</p>
                   </div>
                 </div>
 

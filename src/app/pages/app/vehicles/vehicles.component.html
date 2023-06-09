@@ -7,142 +7,98 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col s10 center">
-    <h4>Buscar por cliente <strong>o</strong> por patente</h4>
-  </div>
-  <div class="col s5">
-    <mat-progress-bar *ngIf="loadingClients" mode="indeterminate"></mat-progress-bar>
-
-    <mat-form-field *ngIf="!loadingClients" appearance="outline">
-      <mat-label>Cliente</mat-label>
-      <mat-select [(ngModel)]="selectedClient" (selectionChange)="selectClient()">
-        <mat-option *ngFor="let client of allClients" [value]="client.rut">
-          {{client.nombre}} {{client.apellido}}
-        </mat-option>
-
-      </mat-select>
-    </mat-form-field>
-
-  </div>
-  <div class="col s5">
-
-    <mat-form-field appearance="outline">
-      <mat-label>Patente</mat-label>
-      <input [(ngModel)]="patente" (ngModelChange)="changePatente()" type="text" matInput placeholder="bcdf22">
-    </mat-form-field>
-
-  </div>
-  <div class="col s2">
-
-
-    <button (click)="searchVehicles()" mat-mini-fab>
-      <mat-icon>search</mat-icon>
-    </button>
-
-  </div>
-
-
-</div>
-
-<div *ngIf="loadingVehicles">
+<div *ngIf="loadingTable">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
 
-<div *ngIf="!loadingVehicles">
+<div *ngIf="!loadingTable">
+  <div *ngIf="dataSource!.data.length === 0">
+    <app-no-data></app-no-data>
+  </div>
+  <div *ngIf="dataSource!.data.length > 0">
+    <mat-form-field appearance="standard">
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Luis" #input>
+    </mat-form-field>
 
-  <div *ngIf="vehicles === null" class="row">
-    <div class="col s12 m12 l12">
-      <p>Sin datos</p>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource!" matSort>
+
+        <!-- Progress Column -->
+        <ng-container matColumnDef="Marca">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="marca"> Marca</th>
+          <td mat-cell *matCellDef="let row"> {{row.marca}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Modelo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="modelo"> Modelo</th>
+          <td mat-cell *matCellDef="let row"> {{row.modelo}} </td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="Patente">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="patente"> Patente</th>
+          <td mat-cell *matCellDef="let row"> {{row.patente}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Color">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="color"> Color</th>
+          <td mat-cell *matCellDef="let row"> {{row.color}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Año">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="Año"> Año</th>
+          <td mat-cell *matCellDef="let row"> {{row.anio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Kilometraje">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="kilometraje"> Kilometraje</th>
+          <td mat-cell *matCellDef="let row"> {{row.kilometraje}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="valign-wrapper">
+
+              <div class="col s4">
+                <button mat-icon-button (click)="openDetails(row)">
+                  <mat-icon class="green-text text-darken-2">visibility</mat-icon>
+                </button>
+              </div>
+              <div class="col s4">
+                <button mat-icon-button (click)="openEdit(row)">
+                  <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
+                </button>
+              </div>
+              <div class="col s4">
+                <button mat-icon-button (click)="openDelete(row)">
+                  <mat-icon class="red-text text-darken-2">delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </td>
+
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No se encontraron vehiculos para "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
     </div>
   </div>
 
-
-  <div *ngIf="vehicles != null">
-    <div *ngIf="vehicles?.length! > 0" class="row">
-      <div class="col s12 m4">
-        <mat-selection-list #selectedVehicle [multiple]="false">
-          <mat-list-option *ngFor="let vehicle of vehicles; index as i" [selected]="vehicle && i == 0"
-                           [value]="vehicle">
-            {{vehicle.marca}} {{vehicle.modelo}}
-          </mat-list-option>
-        </mat-selection-list>
-
-
-      </div>
-      <div *ngIf="selectedVehicle.selectedOptions.selected[0]?.value" class="col s12 m8">
-        <!--      FIXME: Da error en la consola por cambiar el valor, aunque funciona igual-->
-        <div class="col s10">
-          <h1>{{selectedVehicle.selectedOptions.selected[0]?.value.marca | uppercase}} {{selectedVehicle.selectedOptions.selected[0]?.value.modelo | uppercase}} </h1>
-        </div>
-        <div class="col s2">
-          <div class="col s6">
-            <button mat-icon-button (click)="openEditVehicles(selectedVehicle.selectedOptions.selected[0]?.value)">
-              <mat-icon class="yellow-text text-darken-2">edit</mat-icon>
-            </button>
-          </div>
-          <div class="col s6">
-            <button mat-icon-button (click)="openDelete(selectedVehicle.selectedOptions.selected[0]?.value)">
-              <mat-icon class="red-text text-darken-2">delete</mat-icon>
-            </button>
-          </div>
-
-        </div>
-        <div class="col s12">
-
-          <h2>Patente {{selectedVehicle.selectedOptions.selected[0]?.value.patente | uppercase}}</h2>
-        </div>
-
-        <mat-list>
-          <div mat-subheader>Datos del vehículo</div>
-          <mat-list-item>
-            <mat-icon mat-list-icon>calendar_month</mat-icon>
-            <div mat-line>Año</div>
-            <div mat-line>{{selectedVehicle.selectedOptions.selected[0]?.value.anio}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon mat-list-icon>palette</mat-icon>
-            <div mat-line>Color</div>
-            <div mat-line>{{selectedVehicle.selectedOptions.selected[0]?.value.color}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon mat-list-icon>route</mat-icon>
-            <div mat-line>Kilometraje</div>
-            <div mat-line>{{selectedVehicle.selectedOptions.selected[0]?.value.kilometraje}}</div>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <div mat-subheader>Dueño</div>
-          <mat-list-item>
-            <mat-icon mat-list-icon>face</mat-icon>
-            <div mat-line>Nombre</div>
-            <div
-              mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].nombre}}
-              {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].apellido}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon mat-list-icon>home</mat-icon>
-            <div mat-line>Dirección</div>
-            <div
-              mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].direccion}} </div>
-          </mat-list-item>
-          <mat-list-item>
-            <mat-icon mat-list-icon>phone</mat-icon>
-            <div mat-line>Teléfono</div>
-            <div
-              mat-line> {{selectedVehicle.selectedOptions.selected[0]?.value.cliente[0].telefono}} </div>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <div mat-subheader>Ordenes de trabajo</div>
-          <mat-list-item>
-            <mat-icon mat-list-icon>receipt_long</mat-icon>
-            <div mat-line>Valor</div>
-            <div mat-line> $75.000</div>
-          </mat-list-item>
-        </mat-list>
-
-
-      </div>
-    </div>
-  </div>
 </div>
+
+
+

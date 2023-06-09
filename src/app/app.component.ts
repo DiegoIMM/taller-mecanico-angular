@@ -26,7 +26,7 @@ export class AppComponent {
   profile: User | undefined;
 
   ngOnInit(): void {
-    // console.warn('Aquí se chequea el token');
+     console.warn('Aquí se chequea el token');
     // const token = localStorage.getItem('access_token');
     // console.log(token);
     // if (token) {

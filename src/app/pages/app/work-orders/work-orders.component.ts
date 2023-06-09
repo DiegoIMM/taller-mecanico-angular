@@ -23,7 +23,7 @@ export class WorkOrdersComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['numeroOrden', 'patenteVehiculo', 'rutCliente', 'valorOt', 'fechaIngreso'];
+  displayedColumns: string[] = ['numeroOrden', 'marca', 'modelo' ,'patenteVehiculo', 'rutCliente', 'valorOt', 'fechaIngreso', 'estado'];
   expandedElement: any | null;
 
   loadingTable = true;
@@ -49,8 +49,17 @@ export class WorkOrdersComponent implements OnInit {
     this.loadingTable = true;
     this.api.getAllWorkOrders().subscribe({
       next: data => {
+        console.log("getAllWorkOrders");
+        console.warn(data.length);
         console.warn(data);
-        //console.warn(data.vehiculoDtoList);
+        //for(let i =0; i < (data.length)-1; i++){
+        //  console.warn("data[i]"+i);
+        //  console.warn(data[i]);
+        //}
+        //console.warn(data[0].vehiculo);
+        //console.warn(data[0].vehiculo.marca);
+        //console.warn(data[0].vehiculo.modelo);
+        //console.warn(data.vehiculo);
         this.dataSource = new MatTableDataSource(data);
         if (this.dataSource.data.length > 0) {
           this.updatePaginatorAndSort();

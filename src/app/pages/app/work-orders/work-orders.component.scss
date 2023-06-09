@@ -1,7 +1,16 @@
+
 .row .col.s13 {
     margin-left: auto;
     left: auto;
     right: auto;
+}
+
+td, th {
+  width: 10%;
+}
+
+.mat-select {
+  width: 86%;
 }
 
 tr.example-detail-row {

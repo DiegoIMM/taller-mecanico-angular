@@ -4,9 +4,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from '../../../services/api.service';
-import {CreateCarPartsComponent} from '../car-parts/create-car-parts/create-car-parts.component';
 import {CreateVehicleComponent} from './create-vehicle/create-vehicle.component';
-import {MatListOption, MatSelectionList} from '@angular/material/list';
 import {DeleteDataModal} from '../../../models/DeleteDataModal';
 import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete-content-modal.component';
 
@@ -18,136 +16,59 @@ import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete
 export class VehiclesComponent implements OnInit {
 
 
-  loadingVehicles = false;
-  loadingClients = false;
-  allClients: any[] = [];
-  selectedClient: any = null;
-  patente: string = '';
-
-  vehicles: any[] | null = null;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort) sort: MatSort | undefined;
+  displayedColumns: string[] = ['Marca', 'Modelo', 'Patente', 'Color', 'Año', 'Kilometraje','Acciones'];
+  loadingTable = true;
+  dataSource: MatTableDataSource<any> | undefined;
 
   constructor(private dialog: MatDialog, private api: ApiService) {
-
-
   }
-
 
   ngOnInit(): void {
-    this.getAllClients();
+    this.getAllVehicles();
   }
 
-  selectClient() {
-    this.patente = '';
-    console.log(this.selectedClient);
-
-
+  updatePaginatorAndSort() {
+    setTimeout(() => {
+      this.dataSource!.paginator = this.paginator!;
+      this.getAndInitTranslations();
+      this.dataSource!.sort = this.sort!;
+    }, 50);
   }
 
-
-  changePatente() {
-    this.selectedClient = null;
-    // this.loadingVehicles = true;
-    // this.api.getVehiclesByPatente(this.patente).subscribe(
-    //   (data: any) => {
-    //     this.loadingVehicles = false;
-    //     console.log(data);
-    //   },
-    //   (error: any) => {
-    //     this.loadingVehicles = false;
-    //     console.log(error);
-    //   }
-    // );
-  }
-
-  searchVehicles() {
-    if (this.patente == '' && this.selectedClient == null) {
-      alert('Debe ingresar una patente o un cliente');
-      return;
-
+  getAllVehicles(): void {
+    this.loadingTable = true;
+    // limpiar dataSource
+    if (this.dataSource) {
+      this.dataSource.data = [];
     }
 
-    this.loadingVehicles = true;
-    if (this.selectedClient != null) {
-      this.api.getVehiclesByClient(this.selectedClient).subscribe({
-        next: (data: any) => {
 
-          let activeVehicles = data.filter((vehicle: any) => vehicle.habilitado);
-
-          this.vehicles = activeVehicles;
-          this.loadingVehicles = false;
-          console.log(data);
-        }, error: (error: any) => {
-          this.vehicles = null;
-          this.loadingVehicles = false;
-          console.error(error);
-        }, complete: () => {
-          this.loadingVehicles = false;
-
-        }
-      });
-      return;
-    }
-
-    if (this.patente != '') {
-      this.loadingVehicles = false;
-      this.api.getVehiclesByPatente(this.patente).subscribe({
-        next: (data: any) => {
-          if (data != null) {
-            let activeVehicles = [data].filter((vehicle: any) => vehicle.habilitado);
-
-
-            if (activeVehicles.length > 0) {
-              this.vehicles = activeVehicles;
-
-            } else {
-              this.vehicles = null;
-
-            }
-            this.loadingVehicles = false;
-
-            console.log(data);
-
-
-          } else {
-            this.vehicles = null;
-            throw new Error('No se encontró ningún vehículo con esa patente');
-          }
-        }, error: (error: any) => {
-          this.vehicles = null;
-
-          this.loadingVehicles = false;
-          console.error(error);
-        }
-      });
-      return;
-    }
-    this.loadingVehicles = false;
-
-    alert('Debe ingresar una patente o un cliente NO DEBERIA LLEGAR ACA');
-
-  }
-
-  getAllClients(): void {
-    this.loadingClients = true;
-    this.api.getAllClients().subscribe({
+    this.api.getAllVehicles().subscribe({
       next: data => {
+        console.warn("data");
         console.warn(data);
-        var enabledClients: any[] = [];
 
-        data.forEach((client: any) => {
+        var enabledVehicles: any[] = [];
 
-          if (client.habilitado) {
-            enabledClients.push(client);
+        data.forEach((vehicle: any) => {
+
+          if (vehicle.habilitado) {
+            enabledVehicles.push(vehicle);
           }
         });
-        this.allClients = enabledClients;
 
+        this.dataSource = new MatTableDataSource(enabledVehicles);
+        if (this.dataSource.data.length > 0) {
+          this.updatePaginatorAndSort();
+        }
 
       }, error: error => {
         console.log(error);
       }, complete: () => {
 
-        this.loadingClients = false;
+        this.loadingTable = false;
 
       }
     });
@@ -165,25 +86,41 @@ export class VehiclesComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.getAllClients();
-        // this.getAllVehicles();
+        this.getAllVehicles();
       }
     });
   }
 
-  openEditVehicles(vehicle: any): void {
+  openDetails(vehicle: any): void {
+    console.log("vehicle: "+vehicle);
+
     this.dialog.open(CreateVehicleComponent, {
       width: '1290px',
       data: {
-        title: 'Editar Vehículo',
+        title: 'Detalles vehiculos',
         vehicle: vehicle,
-        edit: true
+        edit: false
       }
-
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.searchVehicles();
+        this.getAllVehicles();
+      }
+    });
+  }
+
+  openEdit(vehicle: any): void {
+    this.dialog.open(CreateVehicleComponent, {
+      width: '1290px',
+      data: {
+        title: 'Editar vehiculo',
+        client: vehicle,
+        edit: true
+      }
+    }).afterClosed().subscribe(result => {
+      console.log('The dialog was closed with result: ' + result);
+      if (result != null) {
+        this.getAllVehicles();
       }
     });
   }
@@ -202,10 +139,37 @@ export class VehiclesComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       console.log('The dialog was closed with result: ' + result);
       if (result != null) {
-        this.searchVehicles();
+        this.getAllVehicles();
       }
     });
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource!.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource!.paginator) {
+      this.dataSource!.paginator.firstPage();
+    }
+  }
+
+  getAndInitTranslations() {
+
+
+    this.paginator!._intl.itemsPerPageLabel = 'Items por página';
+    this.paginator!._intl.nextPageLabel = 'Siguiente ';
+    this.paginator!._intl.previousPageLabel = 'Anterior';
+    this.paginator!._intl.previousPageLabel = 'Anterior';
+    this.paginator!._intl.changes.next();
+    this.paginator!._intl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      if (length === 0 || pageSize === 0) {
+        return `0 / ${length}`;
+      }
+      length = Math.max(length, 0);
+      const startIndex = page * pageSize;
+      const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+      return `${startIndex + 1} - ${endIndex} / ${length}`;
+    };
+  }
 
 }

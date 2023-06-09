@@ -1,33 +1,44 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
-<mat-dialog-content class="mat-typography">
+<form [formGroup]="createClientForm" class="row">
+  <h1 class="col s12" mat-dialog-title>{{data.title}}</h1>
 
+  <!--  <mat-slide-toggle formControlName="habilitado" class="col s6">-->
+  <!--    Habilitado-->
+  <!--  </mat-slide-toggle>-->
 
-  <form [formGroup]="createClientForm" class="row">
+  <mat-dialog-content class="mat-typography">
+
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Nombre</mat-label>
-      <input type="text" formControlName="nombre" matInput placeholder="Pedro">
-      <mat-error *ngIf="createClientForm.controls['nombre'].errors?.['required']">Este campo es requerido</mat-error>
+      <input type="text" formControlName="nombre" matInput placeholder="BOSCH">
+      <mat-error *ngIf="createClientForm.controls['nombre'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
 
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Apellido</mat-label>
-      <input type="text" formControlName="apellido" matInput placeholder="Padilla">
-      <mat-error *ngIf="createClientForm.controls['apellido'].errors?.['required']">Este campo es requerido</mat-error>
+      <input type="text" formControlName="apellido" matInput placeholder="LTDA">
+      <mat-error *ngIf="createClientForm.controls['apellido'].errors?.['required']">Este campo es requerido
+      </mat-error>
     </mat-form-field>
 
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Rut</mat-label>
-      <input type="text" formControlName="rut" matInput placeholder="11.111.111-1">
+      <input type="text" formControlName="rut" matInput placeholder="78.111.111-1">
       <mat-error *ngIf="createClientForm.controls['rut'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-error *ngIf="createClientForm.controls['rut'].errors?.['pattern']">Formato de ru no válido</mat-error>
     </mat-form-field>
 
     <mat-form-field class="col s12 m6" appearance="outline">
       <mat-label>Teléfono</mat-label>
-      <input type="text" formControlName="telefono" matInput placeholder="+569 32421212">
-      <mat-error *ngIf="createClientForm.controls['telefono'].errors?.['required']">Este campo es requerido</mat-error>
+      <input type="tel" formControlName="telefono" matInput placeholder="+569 32421212">
+      <mat-error *ngIf="createClientForm.controls['telefono'].errors?.['required']">Este campo es requerido
+      </mat-error>
+
+      <mat-error *ngIf="createClientForm.controls['telefono'].errors?.['pattern']">Formato de teléfono no válido
+      </mat-error>
     </mat-form-field>
 
 
@@ -52,16 +63,29 @@
     </mat-form-field>
 
     <mat-form-field class="col s12" appearance="outline">
-      <mat-label>Dirección</mat-label>
-      <input type="text" formControlName="direccion" matInput placeholder="Los alamos 21">
-      <mat-error *ngIf="createClientForm.controls['direccion'].errors?.['required']">Este campo es requerido</mat-error>
+      <mat-label>Email</mat-label>
+      <input type="text" formControlName="email" matInput placeholder="contacto@bosch.com">
+      <mat-error *ngIf="createClientForm .controls['email'].errors?.['required']">Este campo es requerido
+      </mat-error>
+      <mat-error *ngIf="createClientForm .controls['email'].errors?.['email']">Formato de correo no válido
+      </mat-error>
     </mat-form-field>
-  </form>
+    <mat-form-field class="col s12" appearance="outline">
+      <mat-label>Dirección</mat-label>
+      <input type="text" formControlName="direccion" matInput placeholder="Av Francia 433">
+      <mat-error *ngIf="createClientForm .controls['direccion'].errors?.['required']">Este campo es requerido
+      </mat-error>
+    </mat-form-field>
 
-</mat-dialog-content>
+  </mat-dialog-content>
+
+</form>
+
 <mat-dialog-actions align="end">
-  <button color="warn" mat-button [mat-dialog-close]="null">Cancelar</button>
-  <button *ngIf="data.title === 'Crear cliente'" mat-button cdkFocusInitial
+  <button color="warn" mat-button [mat-dialog-close]="null">Cerrar</button>
+
+
+  <button class="green" *ngIf="data.title == 'Crear cliente'" mat-button cdkFocusInitial
           [disabled]="!createClientForm.valid || loadingButton" (click)="saveClient()">
     Crear
     <mat-icon *ngIf="loadingButton">
@@ -71,7 +95,7 @@
 
   </button>
 
-  <button *ngIf="data.title === 'Editar cliente'" mat-button cdkFocusInitial
+  <button class="yellow darken-2" *ngIf="data.title == 'Editar cliente'" mat-button cdkFocusInitial
           [disabled]="!createClientForm.valid || loadingButton" (click)="editClient()">
     Editar
     <mat-icon *ngIf="loadingButton">

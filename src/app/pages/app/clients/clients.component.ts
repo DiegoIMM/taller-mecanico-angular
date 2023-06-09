@@ -1,16 +1,15 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {CreateClientComponent} from './create-client/create-client.component';
-import {ApiService} from '../../../services/api.service';
-import {MatTableDataSource} from '@angular/material/table';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {CreateProviderComponent} from '../providers/create-provider/create-provider.component';
-import {DeleteDataModal} from '../../../models/DeleteDataModal';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {ApiService} from '../../../services/api.service';
+import {CreateClientComponent} from './create-client/create-client.component';
 import {DeleteContentModalComponent} from '../shared/delete-content-modal/delete-content-modal.component';
+import {DeleteDataModal} from '../../../models/DeleteDataModal';
 
 @Component({
-  selector: 'app-clients',
+  selector: 'app-client',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss']
 })
@@ -18,7 +17,7 @@ export class ClientsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
-  displayedColumns: string[] = ['Nombre', 'Comuna', 'Dirección', 'Teléfono', 'Acciones'];
+  displayedColumns: string[] = ['Nombre', 'Dirección', 'Email', 'Teléfono', 'Acciones'];
   loadingTable = true;
   dataSource: MatTableDataSource<any> | undefined;
 
@@ -90,6 +89,7 @@ export class ClientsComponent implements OnInit {
       }
     });
   }
+
 
   openDetails(client: any): void {
     this.dialog.open(CreateClientComponent, {
