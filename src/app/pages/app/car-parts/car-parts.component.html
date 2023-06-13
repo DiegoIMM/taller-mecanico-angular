@@ -54,7 +54,7 @@
         </ng-container>
         <ng-container matColumnDef="Valor">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="valor"> Valor</th>
-          <td mat-cell *matCellDef="let row"> {{row.valor}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.valor|currency:'CLP'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Acciones">

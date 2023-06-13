@@ -10,6 +10,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 
 import {ProfileComponent} from './profile/profile.component';
 import {ClientsComponent} from './clients/clients.component';
+import {IndexComponent} from './index/index.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {WorkOrdersComponent} from './work-orders/work-orders.component';
 import {CarPartsComponent} from './car-parts/car-parts.component';
@@ -28,7 +29,7 @@ import { NoDataComponent } from './no-data/no-data.component';
     AppComponent, NotFoundComponent, ProfileComponent, ClientsComponent, VehiclesComponent, WorkOrdersComponent,
     CarPartsComponent, ProvidersComponent, CreateClientComponent,
     CreateCarPartsComponent, CreateProviderComponent, CreateVehicleComponent, CreateWorkOrderComponent,
-    DeleteContentModalComponent,
+    DeleteContentModalComponent, IndexComponent,
     NoDataComponent],
   imports: [
     CommonModule,

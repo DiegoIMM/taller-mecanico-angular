@@ -18,7 +18,7 @@
 
         <div  *ngIf="auth.isLogged()" mat-subheader>app</div>
         <mat-list-item  *ngIf="auth.isLogged()" routerLinkActive="light-blue accent-2" [routerLinkActiveOptions]="{exact:true}"
-                       routerLink="/app">
+                       routerLink="/app/inicio">
           <mat-icon mat-list-icon>home</mat-icon>
           <div mat-line>Inicio</div>
         </mat-list-item>

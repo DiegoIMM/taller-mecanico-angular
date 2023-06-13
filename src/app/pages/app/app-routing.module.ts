@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {NotFoundComponent} from '../not-found/not-found.component';
 import {ProfileComponent} from './profile/profile.component';
+import {IndexComponent} from './index/index.component';
 import {ClientsComponent} from './clients/clients.component';
 import {VehiclesComponent} from './vehicles/vehicles.component';
 import {WorkOrdersComponent} from './work-orders/work-orders.component';
@@ -15,7 +16,7 @@ const routes: Routes = [
     component: AppComponent,
     children:
       [
-
+        {path: 'inicio', component: IndexComponent},
         {path: 'clientes', component: ClientsComponent},
         {path: 'vehiculos', component: VehiclesComponent},
         {path: 'ordenes-de-trabajo', component: WorkOrdersComponent},
